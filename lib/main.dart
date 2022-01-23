@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:curry_app/CustomClass.dart';
 import 'package:curry_app/components/PostCard.dart';
+import 'package:curry_app/components/diary/PostDiary.dart';
 
 void main() {
   runApp(const MyApp());
@@ -83,7 +84,15 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
+        onPressed: () {
+          showModalBottomSheet(
+              backgroundColor: Colors.black12,
+              context: context,
+              isScrollControlled: true,
+              builder: (BuildContext context) {
+                return PostDiary();
+              });
+        },
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
