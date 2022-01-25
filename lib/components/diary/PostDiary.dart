@@ -3,6 +3,7 @@ import 'package:curry_app/CustomClass.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class PostDiary extends StatefulWidget {
+  const PostDiary({Key? key}) : super(key: key);
   @override
   _PostDiaryState createState() => _PostDiaryState();
 }

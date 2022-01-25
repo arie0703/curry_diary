@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:curry_app/CustomClass.dart';
 
-class PostCard extends StatelessWidget {
+class DiaryCard extends StatelessWidget {
+  const DiaryCard({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Card(
