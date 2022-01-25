@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:curry_app/CustomClass.dart';
-import 'package:curry_app/components/PostCard.dart';
+import 'package:curry_app/components/diary/Diaries.dart';
 import 'package:curry_app/components/diary/PostDiary.dart';
+import 'package:curry_app/components/recipe/Recipes.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 void main() {
@@ -48,53 +49,52 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+  int _selectedNavContent = 0;
+  int _selectedPage = 0;
 
-  void _incrementCounter() {
+  void _onItemTapped(int index) {
     setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
+      _selectedPage = index;
+      if (index < 3) {
+        _selectedNavContent = index;
+      }
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
+    List<Widget> _pageList = <Widget>[
+      Diaries(),
+      Recipes(),
+    ];
+
     return Scaffold(
       appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[PostCard()],
+      body: Center(child: _pageList.elementAt(_selectedPage)),
+      drawer: Drawer(
+        child: ListView(
+          children: [
+            ListTile(
+              title: Text("みんなのカレー"),
+              trailing: Icon(Icons.list),
+              onTap: () {
+                _onItemTapped(0);
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              title: Text("レシピ"),
+              trailing: Icon(Icons.food_bank),
+              onTap: () {
+                _onItemTapped(1);
+                Navigator.pop(context);
+              },
+            ),
+          ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
