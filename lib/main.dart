@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:curry_app/CustomClass.dart';
 import 'package:curry_app/components/PostCard.dart';
 import 'package:curry_app/components/diary/PostDiary.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 void main() {
   runApp(const MyApp());
@@ -13,14 +14,27 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: CommonColor.primaryColor,
-        scaffoldBackgroundColor: CommonColor.primaryColor[100],
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
-    );
+    Firebase.initializeApp();
+    return FutureBuilder(
+        future: Firebase.initializeApp(),
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return Container(color: CommonColor.primaryColor[100]);
+          }
+
+          if (snapshot.connectionState == ConnectionState.done) {
+            return MaterialApp(
+              title: 'マイカリー日記',
+              theme: ThemeData(
+                primarySwatch: CommonColor.primaryColor,
+                scaffoldBackgroundColor: CommonColor.primaryColor[100],
+              ),
+              home: const MyHomePage(title: 'みんなのカレー'),
+            );
+          }
+
+          return const CircularProgressIndicator();
+        });
   }
 }
 
