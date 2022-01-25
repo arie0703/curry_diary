@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:curry_app/CustomClass.dart';
-import 'package:flutter/semantics.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class PostDiary extends StatefulWidget {
   @override
@@ -10,6 +10,11 @@ class PostDiary extends StatefulWidget {
 class _PostDiaryState extends State<PostDiary> {
   String title = "";
   String content = "";
+
+  String doc = FirebaseFirestore.instance
+      .collection('diaries')
+      .doc()
+      .id; //ランダム生成されるdocumentIDを事前に取得
 
   final titleController = TextEditingController();
   final contentController = TextEditingController();
@@ -80,7 +85,7 @@ class _PostDiaryState extends State<PostDiary> {
                               }),
                         ),
                         onChanged: (text) {
-                          title = text;
+                          content = text;
                         },
                       ),
                     ),
@@ -107,12 +112,14 @@ class _PostDiaryState extends State<PostDiary> {
                             primary: CommonColor.primaryColor),
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
-                            // Firestore実装時にコメントアウトを消す
-
-                            // await FirebaseFirestore.instance
-                            //   .collection('diaries')
-                            //   .doc(doc)
-                            //   .set({'title': title, 'content': content, 'created_at': DateTime.now()});
+                            await FirebaseFirestore.instance
+                                .collection('diaries')
+                                .doc(doc)
+                                .set({
+                              'title': title,
+                              'content': content,
+                              'created_at': DateTime.now()
+                            });
 
                             Navigator.pop(context);
                           }
