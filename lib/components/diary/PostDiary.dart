@@ -1,6 +1,12 @@
+import 'package:curry_app/components/ImageUploader.dart';
 import 'package:flutter/material.dart';
+import 'package:curry_app/ImageStatus.dart';
+import 'package:provider/provider.dart';
 import 'package:curry_app/CustomClass.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:path/path.dart';
+import 'dart:io';
 
 class PostDiary extends StatefulWidget {
   const PostDiary({Key? key}) : super(key: key);
@@ -24,6 +30,9 @@ class _PostDiaryState extends State<PostDiary> {
 
   @override
   Widget build(BuildContext context) {
+    File? _selectedImage =
+        Provider.of<ImageStatus>(context, listen: false).selectedImage;
+
     return Scaffold(
       body: Container(
           margin: const EdgeInsets.all(20),
@@ -90,20 +99,7 @@ class _PostDiaryState extends State<PostDiary> {
                         },
                       ),
                     ),
-                    Row(
-                      children: [
-                        SizedBox(
-                          height: 150,
-                          width: 150,
-                          child: Container(
-                              child: Icon(Icons.photo, color: Colors.grey),
-                              margin: EdgeInsets.all(10),
-                              height: 150,
-                              width: 150,
-                              color: CommonColor.primaryColor[50]),
-                        ),
-                      ],
-                    ),
+                    ImageUploader(),
                     SizedBox(
                       width: 250,
                       height: 50,
@@ -121,6 +117,18 @@ class _PostDiaryState extends State<PostDiary> {
                               'content': content,
                               'created_at': DateTime.now()
                             });
+                            if (_selectedImage != null) {
+                              String filename = basename(_selectedImage.path);
+                              try {
+                                await FirebaseStorage.instance
+                                    .ref()
+                                    .child('uploads/')
+                                    .child(filename)
+                                    .putFile(_selectedImage);
+                              } catch (e) {
+                                debugPrint(e.toString());
+                              }
+                            }
 
                             Navigator.pop(context);
                           }

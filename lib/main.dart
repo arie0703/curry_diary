@@ -1,12 +1,18 @@
+import 'package:curry_app/ImageStatus.dart';
 import 'package:flutter/material.dart';
 import 'package:curry_app/CustomClass.dart';
 import 'package:curry_app/components/diary/Diaries.dart';
 import 'package:curry_app/components/diary/PostDiary.dart';
 import 'package:curry_app/components/recipe/Recipes.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+        providers: [ChangeNotifierProvider(create: (_) => ImageStatus())],
+        child: const MyApp()),
+  );
 }
 
 class MyApp extends StatelessWidget {
