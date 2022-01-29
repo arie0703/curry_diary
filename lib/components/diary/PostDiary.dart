@@ -28,6 +28,35 @@ class _PostDiaryState extends State<PostDiary> {
 
   final _formKey = GlobalKey<FormState>();
 
+  Future<void> postDiary(title, content, selectedImage) async {
+    String? imageURL;
+
+    if (selectedImage != null) {
+      String filePath = basename(selectedImage.path);
+      FirebaseStorage storage = FirebaseStorage.instance;
+
+      UploadTask uploadTask = storage
+          .ref()
+          .child('uploads/')
+          .child(filePath)
+          .putFile(selectedImage);
+
+      // 画像URLを取得
+      await uploadTask.then((res) async {
+        await res.ref.getDownloadURL().then((res) {
+          imageURL = res.toString();
+        });
+      });
+    }
+
+    FirebaseFirestore.instance.collection('diaries').doc(doc).set({
+      'title': title,
+      'content': content,
+      'image_url': imageURL,
+      'created_at': DateTime.now()
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     File? _selectedImage =
@@ -107,29 +136,9 @@ class _PostDiaryState extends State<PostDiary> {
                         child: const Text('投稿する'),
                         style: ElevatedButton.styleFrom(
                             primary: CommonColor.primaryColor),
-                        onPressed: () async {
+                        onPressed: () {
                           if (_formKey.currentState!.validate()) {
-                            await FirebaseFirestore.instance
-                                .collection('diaries')
-                                .doc(doc)
-                                .set({
-                              'title': title,
-                              'content': content,
-                              'created_at': DateTime.now()
-                            });
-                            if (_selectedImage != null) {
-                              String filename = basename(_selectedImage.path);
-                              try {
-                                await FirebaseStorage.instance
-                                    .ref()
-                                    .child('uploads/')
-                                    .child(filename)
-                                    .putFile(_selectedImage);
-                              } catch (e) {
-                                debugPrint(e.toString());
-                              }
-                            }
-
+                            postDiary(title, content, _selectedImage);
                             Navigator.pop(context);
                           }
                         },
