@@ -26,23 +26,32 @@ class _ImageUploaderState extends State<ImageUploader> {
 
   @override
   Widget build(BuildContext context) {
-    return (Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Container(
-              width: 300,
-              child: _selectedImage == null
-                  ? Text('No image selected.')
-                  : Image.file(_selectedImage!)),
-        ),
-        ElevatedButton(
-            onPressed: () {
-              _upload();
-              debugPrint(_selectedImage.toString());
-            },
-            child: Text("upload")),
-      ],
-    ));
+    return Padding(
+      padding: EdgeInsets.all(8.0),
+      child: Row(
+        children: [
+          if (_selectedImage != null)
+            Container(
+                padding: EdgeInsets.symmetric(horizontal: 2.0),
+                width: 120,
+                height: 120,
+                child: Image.file(_selectedImage!, fit: BoxFit.cover)),
+          Container(
+              padding: EdgeInsets.symmetric(horizontal: 2.0),
+              width: 120,
+              height: 120,
+              child: ElevatedButton(
+                onPressed: () {
+                  _upload();
+                },
+                child: const Icon(Icons.add_a_photo, color: Colors.black38),
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.orange[50],
+                  elevation: 0,
+                ),
+              )),
+        ],
+      ),
+    );
   }
 }
