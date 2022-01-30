@@ -12,10 +12,34 @@ class Diaries extends StatefulWidget {
 class _DiariesState extends State<Diaries> {
   @override
   Widget build(BuildContext context) {
-    return (Center(
-      child: ListView(
-        children: [DiaryCard(), DiaryCard()],
-      ),
-    ));
+    return StreamBuilder<QuerySnapshot>(
+      stream: FirebaseFirestore.instance
+          .collection('diaries')
+          .orderBy('created_at', descending: true)
+          .snapshots(), //streamでデータの追加とかを監視する
+      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        if (!snapshot.hasData) {
+          //データがないときの処理
+          return const Center(
+            child: SizedBox(),
+          );
+        }
+        if (snapshot.hasError) {
+          //
+          return const Text('Something went wrong');
+        }
+        return ListView(
+          // リストで表示
+
+          children: snapshot.data!.docs.map((doc) {
+            Map<String, dynamic> data = doc.data()! as Map<String, dynamic>;
+            return DiaryCard(
+                title: data['title'],
+                content: data['content'],
+                imageURL: data['image_url']);
+          }).toList(),
+        );
+      },
+    );
   }
 }
