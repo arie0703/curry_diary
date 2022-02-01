@@ -1,4 +1,5 @@
 import 'package:curry_app/ImageStatus.dart';
+import 'package:curry_app/components/MenuDrawer.dart';
 import 'package:flutter/material.dart';
 import 'package:curry_app/CustomClass.dart';
 import 'package:curry_app/components/diary/Diaries.dart';
@@ -81,28 +82,7 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       body: Center(child: _pageList.elementAt(_selectedPage)),
-      drawer: Drawer(
-        child: ListView(
-          children: [
-            ListTile(
-              title: Text("みんなのカレー"),
-              trailing: Icon(Icons.list),
-              onTap: () {
-                _onItemTapped(0);
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              title: Text("レシピ"),
-              trailing: Icon(Icons.food_bank),
-              onTap: () {
-                _onItemTapped(1);
-                Navigator.pop(context);
-              },
-            ),
-          ],
-        ),
-      ),
+      drawer: MenuDrawer(onItemTapped: _onItemTapped),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           showModalBottomSheet(
