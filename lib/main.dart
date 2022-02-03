@@ -1,5 +1,7 @@
 import 'package:curry_app/ImageStatus.dart';
 import 'package:curry_app/components/MenuDrawer.dart';
+import 'package:curry_app/components/user/Login.dart';
+import 'package:curry_app/components/user/Registration.dart';
 import 'package:flutter/material.dart';
 import 'package:curry_app/CustomClass.dart';
 import 'package:curry_app/components/diary/Diaries.dart';
@@ -73,6 +75,8 @@ class _MyHomePageState extends State<MyHomePage> {
     List<Widget> _pageList = <Widget>[
       Diaries(),
       Recipes(),
+      Login(),
+      Registration(),
     ];
 
     return Scaffold(
