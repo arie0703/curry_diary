@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:curry_app/CustomClass.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:curry_app/UserStatus.dart';
+import 'package:provider/provider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class MenuDrawer extends StatefulWidget {
   const MenuDrawer({Key? key, required this.onItemTapped}) : super(key: key);
@@ -13,8 +16,21 @@ class MenuDrawer extends StatefulWidget {
 
 class _MenuDrawerState extends State<MenuDrawer> {
   User? currentUser = FirebaseAuth.instance.currentUser;
+  String? userName;
+
+  Future<void> getUserInfo() async {
+    await FirebaseFirestore.instance
+        .collection("users")
+        .doc(currentUser!.uid)
+        .get()
+        .then((res) async {
+      context.read<UserStatus>().setUserInfo(res.data()!['name']);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    getUserInfo();
     return Drawer(
         child: Container(
       color: CommonColor.primaryColor[50],
@@ -43,7 +59,7 @@ class _MenuDrawerState extends State<MenuDrawer> {
             )
           else
             ListTile(
-              title: Text(currentUser!.uid),
+              title: Text(context.watch<UserStatus>().name),
               subtitle: Row(
                 children: [
                   TextButton(

@@ -1,4 +1,5 @@
 import 'package:curry_app/ImageStatus.dart';
+import 'package:curry_app/UserStatus.dart';
 import 'package:curry_app/components/MenuDrawer.dart';
 import 'package:curry_app/components/user/Login.dart';
 import 'package:curry_app/components/user/Registration.dart';
@@ -12,9 +13,10 @@ import 'package:provider/provider.dart';
 
 void main() {
   runApp(
-    MultiProvider(
-        providers: [ChangeNotifierProvider(create: (_) => ImageStatus())],
-        child: const MyApp()),
+    MultiProvider(providers: [
+      ChangeNotifierProvider(create: (_) => ImageStatus()),
+      ChangeNotifierProvider(create: (_) => UserStatus()),
+    ], child: const MyApp()),
   );
 }
 
