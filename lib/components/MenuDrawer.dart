@@ -1,9 +1,8 @@
+import 'package:curry_app/components/user/Login.dart';
+import 'package:curry_app/components/user/Registration.dart';
 import 'package:flutter/material.dart';
 import 'package:curry_app/CustomClass.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:curry_app/UserStatus.dart';
-import 'package:provider/provider.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 class MenuDrawer extends StatefulWidget {
   const MenuDrawer({Key? key, required this.onItemTapped}) : super(key: key);
@@ -16,21 +15,9 @@ class MenuDrawer extends StatefulWidget {
 
 class _MenuDrawerState extends State<MenuDrawer> {
   User? currentUser = FirebaseAuth.instance.currentUser;
-  String? userName;
-
-  Future<void> getUserInfo() async {
-    await FirebaseFirestore.instance
-        .collection("users")
-        .doc(currentUser!.uid)
-        .get()
-        .then((res) async {
-      context.read<UserStatus>().setUserInfo(res.data()!['name']);
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
-    getUserInfo();
     return Drawer(
         child: Container(
       color: CommonColor.primaryColor[50],
@@ -44,14 +31,25 @@ class _MenuDrawerState extends State<MenuDrawer> {
                   TextButton(
                       child: Text("ログイン"),
                       onPressed: () {
-                        widget.onItemTapped(2);
                         Navigator.pop(context);
+                        showModalBottomSheet(
+                            backgroundColor: Colors.black12,
+                            context: context,
+                            isScrollControlled: true,
+                            builder: (BuildContext context) {
+                              return Login();
+                            });
                       }),
                   TextButton(
                       child: Text("会員登録"),
                       onPressed: () {
-                        widget.onItemTapped(3);
                         Navigator.pop(context);
+                        showModalBottomSheet(
+                            context: context,
+                            isScrollControlled: true,
+                            builder: (BuildContext context) {
+                              return Registration();
+                            });
                       })
                 ],
               ),
@@ -59,7 +57,7 @@ class _MenuDrawerState extends State<MenuDrawer> {
             )
           else
             ListTile(
-              title: Text(context.watch<UserStatus>().name),
+              title: Text(currentUser!.displayName ?? "未設定"),
               subtitle: Row(
                 children: [
                   TextButton(
