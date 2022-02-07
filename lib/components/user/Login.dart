@@ -61,6 +61,7 @@ class _LoginState extends State<Login> {
                         email: email,
                         password: password,
                       );
+                      Navigator.pop(context);
                     } catch (e) {
                       debugPrint("login failed");
                     }
