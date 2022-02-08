@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 // アカウント登録ページ
 class Registration extends StatefulWidget {
@@ -85,6 +86,15 @@ class _RegistrationState extends State<Registration> {
                             password: password,
                           )
                           .then((res) => {res.user!.updateDisplayName(name)});
+
+                      FirebaseFirestore.instance
+                          .collection('users')
+                          .doc(result!.user!.uid)
+                          .set({
+                        'uid': result!.user!.uid,
+                        'name': name,
+                        'created_at': DateTime.now()
+                      });
 
                       Navigator.pop(context);
                     } catch (e) {

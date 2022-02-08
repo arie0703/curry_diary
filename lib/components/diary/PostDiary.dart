@@ -7,6 +7,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:path/path.dart';
 import 'dart:io';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class PostDiary extends StatefulWidget {
   const PostDiary({Key? key}) : super(key: key);
@@ -17,6 +18,7 @@ class PostDiary extends StatefulWidget {
 class _PostDiaryState extends State<PostDiary> {
   String title = "";
   String content = "";
+  User? currentUser = FirebaseAuth.instance.currentUser;
 
   String doc = FirebaseFirestore.instance
       .collection('diaries')
@@ -53,7 +55,8 @@ class _PostDiaryState extends State<PostDiary> {
       'title': title,
       'content': content,
       'image_url': imageURL,
-      'created_at': DateTime.now()
+      'created_at': DateTime.now(),
+      'user_id': currentUser!.uid
     });
   }
 

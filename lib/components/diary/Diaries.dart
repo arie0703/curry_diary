@@ -10,6 +10,8 @@ class Diaries extends StatefulWidget {
 }
 
 class _DiariesState extends State<Diaries> {
+  String userName = '';
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
@@ -31,13 +33,17 @@ class _DiariesState extends State<Diaries> {
         return ListView(
           // リストで表示
 
-          children: snapshot.data!.docs.map((doc) {
-            Map<String, dynamic> data = doc.data()! as Map<String, dynamic>;
-            return DiaryCard(
-                title: data['title'],
-                content: data['content'],
-                imageURL: data['image_url']);
-          }).toList(),
+          children: snapshot.data!.docs.map(
+            (doc) {
+              Map<String, dynamic> data = doc.data()! as Map<String, dynamic>;
+
+              return DiaryCard(
+                  title: data['title'],
+                  content: data['content'],
+                  imageURL: data['image_url'],
+                  userID: data['user_id']);
+            },
+          ).toList(),
         );
       },
     );
