@@ -41,7 +41,8 @@ class _DiariesState extends State<Diaries> {
                   title: data['title'],
                   content: data['content'],
                   imageURL: data['image_url'],
-                  userID: data['user_id']);
+                  userID: data['user_id'],
+                  docID: doc.id);
             },
           ).toList(),
         );
