@@ -56,9 +56,19 @@ class _DiaryCardState extends State<DiaryCard> {
             .collection('diaries')
             .doc(widget.docID)
             .collection('liked_users')
+            .doc(currentUser!.uid)
             .snapshots(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
-          int countLikes = 0;
+          bool isLiked;
+
+          // 現在ログイン中のユーザーがいいねを押したかどうかは、例外処理で判定
+          try {
+            snapshot.data["user_id"];
+            isLiked = true;
+          } catch (_) {
+            isLiked = false;
+          }
+
           if (!snapshot.hasData) {
             //
             return const SizedBox();
@@ -68,18 +78,19 @@ class _DiaryCardState extends State<DiaryCard> {
             return const Text('Something went wrong');
           }
 
-          countLikes = snapshot.data.docs.length;
-          if (snapshot.data.docs.isEmpty) {
-            return ElevatedButton(
-              child: Text(countLikes.toString() + 'いいね'),
+          if (!isLiked) {
+            return IconButton(
+              icon: const Icon(Icons.star_border_outlined),
+              color: Colors.orange,
               onPressed: () {
                 like();
               },
             );
           }
 
-          return ElevatedButton(
-            child: Text(countLikes.toString() + 'いいね'),
+          return IconButton(
+            icon: const Icon(Icons.star),
+            color: Colors.orange,
             onPressed: () {
               destroyLike();
             },
