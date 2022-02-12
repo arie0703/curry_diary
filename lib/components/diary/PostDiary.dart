@@ -55,6 +55,7 @@ class _PostDiaryState extends State<PostDiary> {
       'title': title,
       'content': content,
       'image_url': imageURL,
+      'likes': 0,
       'created_at': DateTime.now(),
       'user_id': currentUser!.uid
     });

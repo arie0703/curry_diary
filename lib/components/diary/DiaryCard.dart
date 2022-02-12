@@ -9,12 +9,14 @@ class DiaryCard extends StatefulWidget {
     required this.title,
     required this.content,
     this.imageURL,
+    required this.likes,
     required this.userID,
     required this.docID,
   }) : super(key: key);
   final String title;
   final String content;
   final String? imageURL;
+  final int likes;
   final String userID;
   final String docID;
   @override
@@ -29,6 +31,23 @@ class _DiaryCardState extends State<DiaryCard> {
     // 親widgetから渡されたユーザーIDを元に、投稿ユーザーの情報を取得
     // 投稿ユーザー情報取得後にWidgetを描画する
 
+    void updateLikeCount() async {
+      int count = 0;
+
+      await FirebaseFirestore.instance
+          .collection('diaries')
+          .doc(widget.docID)
+          .collection('liked_users')
+          .get()
+          .then((res) => {
+                count = res.docs.length,
+                FirebaseFirestore.instance
+                    .collection('diaries')
+                    .doc(widget.docID)
+                    .update({'likes': count})
+              });
+    }
+
     void like() {
       FirebaseFirestore.instance
           .collection('diaries')
@@ -40,6 +59,7 @@ class _DiaryCardState extends State<DiaryCard> {
         'post_id': widget.docID,
         'created_at': DateTime.now(),
       });
+      updateLikeCount();
     }
 
     void destroyLike() {
@@ -49,6 +69,7 @@ class _DiaryCardState extends State<DiaryCard> {
           .collection('liked_users')
           .doc(currentUser!.uid)
           .delete();
+      updateLikeCount();
     }
 
     Widget likeButton = StreamBuilder(
@@ -80,7 +101,8 @@ class _DiaryCardState extends State<DiaryCard> {
 
           if (!isLiked) {
             return IconButton(
-              icon: const Icon(Icons.star_border_outlined),
+              padding: EdgeInsets.all(0.0),
+              icon: const Icon(Icons.star_border_outlined, size: 30),
               color: Colors.orange,
               onPressed: () {
                 like();
@@ -89,7 +111,8 @@ class _DiaryCardState extends State<DiaryCard> {
           }
 
           return IconButton(
-            icon: const Icon(Icons.star),
+            padding: EdgeInsets.all(0.0),
+            icon: const Icon(Icons.star, size: 30),
             color: Colors.orange,
             onPressed: () {
               destroyLike();
@@ -128,13 +151,37 @@ class _DiaryCardState extends State<DiaryCard> {
                 ButtonTheme(
                   child: ButtonBar(
                     children: <Widget>[
-                      ElevatedButton(
-                        child: const Text('レシピを見る'),
-                        onPressed: () {
-                          debugPrint("button pressed");
-                        },
+                      Column(
+                        children: [
+                          IconButton(
+                            padding: EdgeInsets.all(0.0),
+                            icon: const Icon(Icons.book_sharp, size: 30),
+                            color: Colors.orange[800],
+                            onPressed: () {
+                              debugPrint("button pressed");
+                            },
+                          ),
+                          Text(
+                            'レシピ',
+                            style: TextStyle(
+                                height: 0.5,
+                                fontSize: 12,
+                                color: Colors.black87),
+                          )
+                        ],
                       ),
-                      likeButton,
+                      Column(
+                        children: [
+                          likeButton,
+                          Text(
+                            widget.likes.toString(),
+                            style: TextStyle(
+                                height: 0.5,
+                                fontSize: 12,
+                                color: Colors.black87),
+                          )
+                        ],
+                      ),
                     ],
                   ),
                 ),
