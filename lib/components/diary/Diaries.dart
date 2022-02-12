@@ -41,6 +41,7 @@ class _DiariesState extends State<Diaries> {
                   title: data['title'],
                   content: data['content'],
                   imageURL: data['image_url'],
+                  likes: data['likes'],
                   userID: data['user_id'],
                   docID: doc.id);
             },
