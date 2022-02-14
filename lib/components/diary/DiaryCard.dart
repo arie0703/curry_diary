@@ -150,7 +150,20 @@ class _DiaryCardState extends State<DiaryCard> {
                       child: Image.network(widget.imageURL!)),
                 ButtonTheme(
                   child: ButtonBar(
+                    alignment: MainAxisAlignment.start,
                     children: <Widget>[
+                      Column(
+                        children: [
+                          likeButton,
+                          Text(
+                            widget.likes.toString(),
+                            style: TextStyle(
+                                height: 0.5,
+                                fontSize: 12,
+                                color: Colors.black87),
+                          )
+                        ],
+                      ),
                       Column(
                         children: [
                           IconButton(
@@ -170,19 +183,19 @@ class _DiaryCardState extends State<DiaryCard> {
                           )
                         ],
                       ),
-                      Column(
-                        children: [
-                          likeButton,
-                          Text(
-                            widget.likes.toString(),
-                            style: TextStyle(
-                                height: 0.5,
-                                fontSize: 12,
-                                color: Colors.black87),
-                          )
-                        ],
-                      ),
                     ],
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.bottomLeft,
+                  child: Container(
+                    padding: EdgeInsets.all(10),
+                    child: Text(
+                      widget.content,
+                      style: TextStyle(
+                        fontSize: 15,
+                      ),
+                    ),
                   ),
                 ),
               ],
