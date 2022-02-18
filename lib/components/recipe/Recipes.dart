@@ -1,3 +1,4 @@
+import 'package:curry_app/components/recipe/PostRecipe.dart';
 import 'package:flutter/material.dart';
 import 'package:curry_app/CustomClass.dart';
 import 'package:curry_app/components/Recipe/RecipeCard.dart';
@@ -13,7 +14,22 @@ class _RecipesState extends State<Recipes> {
   Widget build(BuildContext context) {
     return (Center(
       child: ListView(
-        children: [RecipeCard(), RecipeCard()],
+        children: [
+          ElevatedButton(
+            onPressed: () {
+              showModalBottomSheet(
+                  backgroundColor: Colors.black12,
+                  context: context,
+                  isScrollControlled: true,
+                  builder: (BuildContext context) {
+                    return PostRecipe();
+                  });
+            },
+            child: Text("add"),
+          ),
+          RecipeCard(),
+          RecipeCard()
+        ],
       ),
     ));
   }
