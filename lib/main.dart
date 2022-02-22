@@ -1,6 +1,7 @@
 import 'package:curry_app/ImageStatus.dart';
 import 'package:curry_app/UserStatus.dart';
 import 'package:curry_app/components/MenuDrawer.dart';
+import 'package:curry_app/components/recipe/PostRecipe.dart';
 import 'package:curry_app/components/user/Login.dart';
 import 'package:curry_app/components/user/Registration.dart';
 import 'package:flutter/material.dart';
@@ -60,48 +61,80 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _selectedNavContent = 0;
   int _selectedPage = 0;
 
   void _onItemTapped(int index) {
     setState(() {
       _selectedPage = index;
-      if (index < 3) {
-        _selectedNavContent = index;
-      }
     });
   }
+
+  List<Widget> _titleList = <Widget>[
+    Text("みんなのカレー"),
+    Text("レシピ"),
+  ];
 
   @override
   Widget build(BuildContext context) {
     List<Widget> _pageList = <Widget>[
       Diaries(),
       Recipes(),
-      Login(),
-      Registration(),
     ];
 
     return Scaffold(
       appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
+        title: _titleList[_selectedPage],
+        actions: [
+          if (_selectedPage == 0)
+            IconButton(
+              icon: const Icon(Icons.add),
+              tooltip: 'カレー日記を投稿',
+              onPressed: () {
+                showModalBottomSheet(
+                    backgroundColor: Colors.black12,
+                    context: context,
+                    isScrollControlled: true,
+                    builder: (BuildContext context) {
+                      return PostDiary();
+                    });
+              },
+            ),
+          if (_selectedPage == 1)
+            IconButton(
+              icon: const Icon(Icons.add),
+              tooltip: 'レシピを投稿',
+              onPressed: () {
+                showModalBottomSheet(
+                    backgroundColor: Colors.black12,
+                    context: context,
+                    isScrollControlled: true,
+                    builder: (BuildContext context) {
+                      return PostRecipe();
+                    });
+              },
+            ),
+        ],
       ),
       body: Center(child: _pageList.elementAt(_selectedPage)),
       drawer: MenuDrawer(onItemTapped: _onItemTapped),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          showModalBottomSheet(
-              backgroundColor: Colors.black12,
-              context: context,
-              isScrollControlled: true,
-              builder: (BuildContext context) {
-                return PostDiary();
-              });
-        },
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Colors.orange[50],
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.list),
+            label: 'カレー日記',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.book),
+            label: 'レシピ',
+          ),
+        ],
+        currentIndex: _selectedPage,
+        selectedItemColor: Colors.orange,
+        onTap: _onItemTapped,
+      ),
     );
   }
 }
