@@ -1,3 +1,4 @@
+import 'package:curry_app/components/recipe/RecipeDetail.dart';
 import 'package:flutter/material.dart';
 import 'package:curry_app/CustomClass.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -30,7 +31,20 @@ class _RecipeCardState extends State<RecipeCard> {
             return const Text('Something went wrong');
           }
           return GestureDetector(
-            onTap: () {},
+            onTap: () {
+              BuildContext mainContext = context;
+              showModalBottomSheet(
+                  backgroundColor: CommonColor.primaryColor[100],
+                  context: context,
+                  isScrollControlled: true,
+                  builder: (BuildContext context) {
+                    return RecipeDetail(
+                      data: widget.data,
+                      userName: snapshot.data['name'],
+                      docID: widget.docID,
+                    );
+                  });
+            },
             child: Card(
                 color: CommonColor.primaryColor[50],
                 child: Padding(
