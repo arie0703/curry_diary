@@ -19,8 +19,8 @@ class PostRecipe extends StatefulWidget {
 class _PostRecipeState extends State<PostRecipe> {
   String title = "";
   String content = "";
-  List<String> procedure = [];
-  List<String> ingredients = [];
+  List<String> procedure = [""];
+  List<String> ingredients = [""];
   bool isVisibleIngredients = false;
   bool isVisibleProcedure = false;
   User? currentUser = FirebaseAuth.instance.currentUser;

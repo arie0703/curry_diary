@@ -41,14 +41,15 @@ class _TextFieldListState extends State<TextFieldList> {
             );
           },
         ),
-        ElevatedButton(
-          child: Text("追加"),
-          onPressed: () {
-            setState(() {
-              widget.list.add("");
-            });
-          },
-        ),
+        if (widget.list.length < 10)
+          ElevatedButton(
+            child: Text("追加"),
+            onPressed: () {
+              setState(() {
+                widget.list.add("");
+              });
+            },
+          ),
       ],
     );
   }
