@@ -61,11 +61,17 @@ class _MenuDrawerState extends State<MenuDrawer> {
               subtitle: Row(
                 children: [
                   TextButton(
+                      child: Text("マイページ"),
+                      onPressed: () {
+                        widget.onItemTapped(2);
+                        Navigator.pop(context);
+                      }),
+                  TextButton(
                       child: Text("ログアウト"),
                       onPressed: () {
                         FirebaseAuth.instance.signOut();
                         Navigator.pop(context);
-                      })
+                      }),
                 ],
               ),
               leading: Icon(Icons.person),
