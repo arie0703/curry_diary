@@ -2,8 +2,7 @@ import 'package:curry_app/ImageStatus.dart';
 import 'package:curry_app/UserStatus.dart';
 import 'package:curry_app/components/MenuDrawer.dart';
 import 'package:curry_app/components/recipe/PostRecipe.dart';
-import 'package:curry_app/components/user/Login.dart';
-import 'package:curry_app/components/user/Registration.dart';
+import 'package:curry_app/components/user/MyPage.dart';
 import 'package:flutter/material.dart';
 import 'package:curry_app/CustomClass.dart';
 import 'package:curry_app/components/diary/Diaries.dart';
@@ -61,17 +60,23 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  int _selectedNavContent = 0;
   int _selectedPage = 0;
 
   void _onItemTapped(int index) {
     setState(() {
       _selectedPage = index;
+      // _selectedNavContentはBottomNavigationBarのindexとして使用する
+      if (index < 2) {
+        _selectedNavContent = index;
+      }
     });
   }
 
   List<Widget> _titleList = <Widget>[
     Text("みんなのカレー"),
     Text("レシピ"),
+    Text("マイページ")
   ];
 
   @override
@@ -79,6 +84,7 @@ class _MyHomePageState extends State<MyHomePage> {
     List<Widget> _pageList = <Widget>[
       Diaries(),
       Recipes(),
+      MyPage(),
     ];
 
     return Scaffold(
@@ -131,7 +137,7 @@ class _MyHomePageState extends State<MyHomePage> {
             label: 'レシピ',
           ),
         ],
-        currentIndex: _selectedPage,
+        currentIndex: _selectedNavContent,
         selectedItemColor: Colors.orange,
         onTap: _onItemTapped,
       ),
