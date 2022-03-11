@@ -133,28 +133,50 @@ class _RecipeDetailState extends State<RecipeDetail> {
     );
 
     return Container(
-      height: 800,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          widget.data["imageURL"] != null
-              ? Image.network(widget.data["imageURL"])
-              : Image.asset('assets/noimage.png',
-                  width: MediaQuery.of(context).size.width, fit: BoxFit.cover),
-          Container(
-              margin: const EdgeInsets.all(20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _infoBar,
-                  Text(
-                    widget.data['content'],
-                    style: TextStyle(fontSize: 18, height: 2.0),
-                  )
-                ],
-              )),
-        ],
-      ),
-    );
+        height: 800,
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              widget.data["imageURL"] != null
+                  ? Image.network(widget.data["imageURL"])
+                  : Image.asset('assets/noimage.png',
+                      width: MediaQuery.of(context).size.width,
+                      fit: BoxFit.cover),
+              Container(
+                  margin: const EdgeInsets.all(20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _infoBar,
+                      Text(
+                        widget.data['content'],
+                        style: TextStyle(fontSize: 18, height: 2.0),
+                      ),
+                      for (int i = 0; i < widget.data['procedure'].length; i++)
+                        Container(
+                          padding: EdgeInsets.all(8.0),
+                          margin: EdgeInsets.only(bottom: 6.0),
+                          decoration: BoxDecoration(
+                            border: Border(
+                                bottom: BorderSide(
+                                    color: Colors.brown[400]!, width: 1.0)),
+                          ),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text((i + 1).toString()),
+                              SizedBox(
+                                width: 20,
+                              ),
+                              Flexible(child: Text(widget.data['procedure'][i]))
+                            ],
+                          ),
+                        )
+                    ],
+                  )),
+            ],
+          ),
+        ));
   }
 }
