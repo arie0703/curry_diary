@@ -134,49 +134,91 @@ class _RecipeDetailState extends State<RecipeDetail> {
 
     return Container(
         height: 800,
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              widget.data["imageURL"] != null
-                  ? Image.network(widget.data["imageURL"])
-                  : Image.asset('assets/noimage.png',
-                      width: MediaQuery.of(context).size.width,
-                      fit: BoxFit.cover),
-              Container(
-                  margin: const EdgeInsets.all(20),
+        child: Column(
+          children: [
+            // header
+            Container(
+                padding: EdgeInsets.all(10),
+                height: 60,
+                decoration: BoxDecoration(
+                  color: Colors.black26,
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(15),
+                    topRight: Radius.circular(15),
+                  ),
+                ),
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                          child: Text(widget.data["title"],
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 22,
+                              ))),
+                      IconButton(
+                        icon: Icon(Icons.close, color: Colors.white),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                      )
+                    ])),
+            // body
+            Container(
+                height: 740,
+                color: CommonColor.primaryColor[100],
+                child: SingleChildScrollView(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      _infoBar,
-                      Text(
-                        widget.data['content'],
-                        style: TextStyle(fontSize: 18, height: 2.0),
-                      ),
-                      for (int i = 0; i < widget.data['procedure'].length; i++)
-                        Container(
-                          padding: EdgeInsets.all(8.0),
-                          margin: EdgeInsets.only(bottom: 6.0),
-                          decoration: BoxDecoration(
-                            border: Border(
-                                bottom: BorderSide(
-                                    color: Colors.brown[400]!, width: 1.0)),
-                          ),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
+                      widget.data["imageURL"] != null
+                          ? Image.network(widget.data["imageURL"])
+                          : Image.asset('assets/noimage.png',
+                              width: MediaQuery.of(context).size.width,
+                              fit: BoxFit.cover),
+                      Container(
+                          margin: const EdgeInsets.all(20),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text((i + 1).toString()),
-                              SizedBox(
-                                width: 20,
+                              _infoBar,
+                              Text(
+                                widget.data['content'],
+                                style: TextStyle(fontSize: 18, height: 2.0),
                               ),
-                              Flexible(child: Text(widget.data['procedure'][i]))
+                              for (int i = 0;
+                                  i < widget.data['procedure'].length;
+                                  i++)
+                                Container(
+                                  padding: EdgeInsets.all(8.0),
+                                  margin: EdgeInsets.only(bottom: 6.0),
+                                  decoration: BoxDecoration(
+                                    border: Border(
+                                        bottom: BorderSide(
+                                            color: Colors.brown[400]!,
+                                            width: 1.0)),
+                                  ),
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Text((i + 1).toString()),
+                                      SizedBox(
+                                        width: 20,
+                                      ),
+                                      Flexible(
+                                          child:
+                                              Text(widget.data['procedure'][i]))
+                                    ],
+                                  ),
+                                )
                             ],
-                          ),
-                        )
+                          )),
                     ],
-                  )),
-            ],
-          ),
+                  ),
+                ))
+          ],
         ));
   }
 }

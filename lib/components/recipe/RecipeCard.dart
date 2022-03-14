@@ -32,9 +32,8 @@ class _RecipeCardState extends State<RecipeCard> {
           }
           return GestureDetector(
             onTap: () {
-              BuildContext mainContext = context;
               showModalBottomSheet(
-                  backgroundColor: CommonColor.primaryColor[100],
+                  backgroundColor: Colors.transparent,
                   context: context,
                   isScrollControlled: true,
                   builder: (BuildContext context) {
