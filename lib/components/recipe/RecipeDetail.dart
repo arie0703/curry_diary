@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:curry_app/CustomClass.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:curry_app/components/recipe/EditRecipe.dart';
 
 class RecipeDetail extends StatefulWidget {
   const RecipeDetail(
@@ -111,6 +112,25 @@ class _RecipeDetailState extends State<RecipeDetail> {
           );
         });
 
+    Widget _editButton = IconButton(
+      padding: EdgeInsets.all(0.0),
+      icon: const Icon(Icons.edit, size: 30),
+      color: Colors.deepOrangeAccent,
+      onPressed: () {
+        showModalBottomSheet(
+            backgroundColor: Colors.black12,
+            context: context,
+            isScrollControlled: true,
+            builder: (BuildContext context) {
+              return EditRecipe(data: widget.data, docID: widget.docID);
+            });
+        // FirebaseFirestore.instance
+        //     .collection('recipes')
+        //     .doc(widget.docID)
+        //     .delete();
+      },
+    );
+
     Widget _infoBar = Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -121,14 +141,27 @@ class _RecipeDetailState extends State<RecipeDetail> {
             Text('by ' + widget.userName),
           ],
         ),
-        Column(
+        Row(
           children: [
-            _likeButton,
-            Text('いいね!',
-                style:
-                    TextStyle(height: 0.5, fontSize: 12, color: Colors.black87))
+            if (currentUser!.uid == widget.data['user_id'])
+              Column(
+                children: [
+                  _editButton,
+                  Text('編集',
+                      style: TextStyle(
+                          height: 0.5, fontSize: 12, color: Colors.black87))
+                ],
+              ),
+            Column(
+              children: [
+                _likeButton,
+                Text('いいね!',
+                    style: TextStyle(
+                        height: 0.5, fontSize: 12, color: Colors.black87))
+              ],
+            )
           ],
-        )
+        ),
       ],
     );
 
