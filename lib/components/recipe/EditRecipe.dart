@@ -198,6 +198,46 @@ class _EditRecipeState extends State<EditRecipe> {
                         },
                       ),
                     ),
+                    SizedBox(
+                      width: 250,
+                      height: 50,
+                      child: TextButton(
+                        child: const Text(
+                          '削除する',
+                          style: TextStyle(color: Colors.red),
+                        ),
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            barrierDismissible: false,
+                            builder: (_) {
+                              return AlertDialog(
+                                backgroundColor: CommonColor.primaryColor[50],
+                                title: Text("投稿を削除"),
+                                content: Text("レシピを削除しますが、よろしいですか？"),
+                                actions: [
+                                  TextButton(
+                                    child: Text("いいえ"),
+                                    onPressed: () => Navigator.pop(context),
+                                  ),
+                                  TextButton(
+                                    child: Text("はい"),
+                                    onPressed: () {
+                                      FirebaseFirestore.instance
+                                          .collection('recipes')
+                                          .doc(widget.docID)
+                                          .delete();
+                                      Navigator.of(context)
+                                          .popUntil((route) => route.isFirst);
+                                    },
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        },
+                      ),
+                    ),
                   ]))
             ],
           )),
