@@ -37,13 +37,7 @@ class _DiariesState extends State<Diaries> {
             (doc) {
               Map<String, dynamic> data = doc.data()! as Map<String, dynamic>;
 
-              return DiaryCard(
-                  title: data['title'],
-                  content: data['content'],
-                  imageURL: data['image_url'],
-                  likes: data['likes'],
-                  userID: data['user_id'],
-                  docID: doc.id);
+              return DiaryCard(data: data, docID: doc.id);
             },
           ).toList(),
         );
