@@ -1,23 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:curry_app/CustomClass.dart';
+import 'package:curry_app/components/diary/EditDiary.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class DiaryCard extends StatefulWidget {
   const DiaryCard({
     Key? key,
-    required this.title,
-    required this.content,
-    this.imageURL,
-    required this.likes,
-    required this.userID,
+    required this.data,
     required this.docID,
   }) : super(key: key);
-  final String title;
-  final String content;
-  final String? imageURL;
-  final int likes;
-  final String userID;
+  final Map data;
   final String docID;
   @override
   _DiaryCardState createState() => _DiaryCardState();
@@ -123,7 +116,7 @@ class _DiaryCardState extends State<DiaryCard> {
     return StreamBuilder(
         stream: FirebaseFirestore.instance
             .collection('users')
-            .doc(widget.userID)
+            .doc(widget.data["user_id"])
             .snapshots(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (!snapshot.hasData) {
@@ -141,13 +134,13 @@ class _DiaryCardState extends State<DiaryCard> {
               children: [
                 ListTile(
                   leading: Icon(Icons.person),
-                  title: Text(widget.title),
+                  title: Text(widget.data["title"]),
                   subtitle: Text(snapshot.data['name']),
                 ),
-                if (widget.imageURL != null)
+                if (widget.data["image_url"] != null)
                   Container(
                       alignment: Alignment.center,
-                      child: Image.network(widget.imageURL!)),
+                      child: Image.network(widget.data["image_url"]!)),
                 ButtonTheme(
                   child: ButtonBar(
                     alignment: MainAxisAlignment.start,
@@ -156,7 +149,7 @@ class _DiaryCardState extends State<DiaryCard> {
                         children: [
                           likeButton,
                           Text(
-                            widget.likes.toString(),
+                            widget.data["likes"].toString(),
                             style: TextStyle(
                                 height: 0.5,
                                 fontSize: 12,
@@ -164,25 +157,34 @@ class _DiaryCardState extends State<DiaryCard> {
                           )
                         ],
                       ),
-                      Column(
-                        children: [
-                          IconButton(
-                            padding: EdgeInsets.all(0.0),
-                            icon: const Icon(Icons.book_sharp, size: 30),
-                            color: Colors.orange[800],
-                            onPressed: () {
-                              debugPrint("button pressed");
-                            },
-                          ),
-                          Text(
-                            'レシピ',
-                            style: TextStyle(
-                                height: 0.5,
-                                fontSize: 12,
-                                color: Colors.black87),
-                          )
-                        ],
-                      ),
+                      if (currentUser!.uid == widget.data['user_id'])
+                        Column(
+                          children: [
+                            IconButton(
+                              padding: EdgeInsets.all(0.0),
+                              icon: const Icon(Icons.edit, size: 30),
+                              color: Colors.deepOrangeAccent,
+                              onPressed: () {
+                                showModalBottomSheet(
+                                    backgroundColor: Colors.black12,
+                                    context: context,
+                                    isScrollControlled: true,
+                                    builder: (BuildContext context) {
+                                      return EditDiary(
+                                          data: widget.data,
+                                          docID: widget.docID);
+                                    });
+                              },
+                            ),
+                            Text(
+                              '編集',
+                              style: TextStyle(
+                                  height: 0.5,
+                                  fontSize: 12,
+                                  color: Colors.black87),
+                            )
+                          ],
+                        ),
                     ],
                   ),
                 ),
@@ -191,7 +193,7 @@ class _DiaryCardState extends State<DiaryCard> {
                   child: Container(
                     padding: EdgeInsets.all(10),
                     child: Text(
-                      widget.content,
+                      widget.data["content"],
                       style: TextStyle(
                         fontSize: 15,
                       ),

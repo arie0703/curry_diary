@@ -1,5 +1,4 @@
 import 'package:curry_app/components/ImageUploader.dart';
-import 'package:curry_app/components/recipe/TextFieldList.dart';
 import 'package:flutter/material.dart';
 import 'package:curry_app/ImageStatus.dart';
 import 'package:provider/provider.dart';
@@ -10,22 +9,18 @@ import 'package:path/path.dart';
 import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 
-class EditRecipe extends StatefulWidget {
-  const EditRecipe({Key? key, required this.data, required this.docID})
+class EditDiary extends StatefulWidget {
+  const EditDiary({Key? key, required this.data, required this.docID})
       : super(key: key);
   final Map data;
   final String docID;
   @override
-  _EditRecipeState createState() => _EditRecipeState();
+  _EditDiaryState createState() => _EditDiaryState();
 }
 
-class _EditRecipeState extends State<EditRecipe> {
+class _EditDiaryState extends State<EditDiary> {
   String title = "";
   String content = "";
-  List procedure = [""];
-  List ingredients = [""];
-  bool isVisibleIngredients = false;
-  bool isVisibleProcedure = false;
   User? currentUser = FirebaseAuth.instance.currentUser;
 
   TextEditingController _titleController = TextEditingController();
@@ -33,7 +28,7 @@ class _EditRecipeState extends State<EditRecipe> {
 
   final _formKey = GlobalKey<FormState>();
 
-  Future<void> _editRecipe(title, content, selectedImage) async {
+  Future<void> _EditDiary(title, content, selectedImage) async {
     String? imageURL;
 
     if (selectedImage != null) {
@@ -56,11 +51,9 @@ class _EditRecipeState extends State<EditRecipe> {
       imageURL = widget.data["image_url"];
     }
 
-    FirebaseFirestore.instance.collection('recipes').doc(widget.docID).set({
+    FirebaseFirestore.instance.collection('diaries').doc(widget.docID).set({
       'title': title,
       'content': content,
-      'ingredients': ingredients,
-      'procedure': procedure,
       'image_url': imageURL,
       'likes': widget.data["likes"],
       'created_at': DateTime.now(),
@@ -68,34 +61,10 @@ class _EditRecipeState extends State<EditRecipe> {
     });
   }
 
-  // TextFieldを動的に複数描画するWidget
-
-  Future _showDialog(text, list) async {
-    await showDialog(
-        barrierDismissible: true,
-        context: this.context,
-        builder: (BuildContext context) {
-          return StatefulBuilder(builder: (context, setState) {
-            return SimpleDialog(
-              backgroundColor: CommonColor.primaryColor[100],
-              title: Text(text),
-              children: [
-                Container(
-                    width: double.maxFinite,
-                    padding: EdgeInsets.all(10),
-                    child: TextFieldList(list: list))
-              ],
-            );
-          });
-        });
-  }
-
   @override
   void initState() {
     title = widget.data['title'];
     content = widget.data['content'];
-    procedure = widget.data['procedure'];
-    ingredients = widget.data['ingredients'];
     _titleController = TextEditingController(text: widget.data["title"]);
     _contentController = TextEditingController(text: widget.data["content"]);
   }
@@ -113,7 +82,7 @@ class _EditRecipeState extends State<EditRecipe> {
           child: ListView(
             children: [
               const Text(
-                "レシピを投稿",
+                "カレー日記を編集",
                 style: TextStyle(
                   fontSize: 20,
                 ),
@@ -170,18 +139,6 @@ class _EditRecipeState extends State<EditRecipe> {
                         },
                       ),
                     ),
-                    TextButton(
-                      child: Text("材料"),
-                      onPressed: () async {
-                        await _showDialog("材料を追加", widget.data['ingredients']);
-                      },
-                    ),
-                    TextButton(
-                      child: Text("つくりかた"),
-                      onPressed: () async {
-                        await _showDialog("つくりかたを追加", widget.data['procedure']);
-                      },
-                    ),
                     ImageUploader(),
                     SizedBox(
                       width: 250,
@@ -192,7 +149,7 @@ class _EditRecipeState extends State<EditRecipe> {
                             primary: CommonColor.primaryColor),
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
-                            _editRecipe(title, content, _selectedImage);
+                            _EditDiary(title, content, _selectedImage);
                             Navigator.pop(context);
                           }
                         },
@@ -213,8 +170,8 @@ class _EditRecipeState extends State<EditRecipe> {
                             builder: (_) {
                               return AlertDialog(
                                 backgroundColor: CommonColor.primaryColor[50],
-                                title: Text("投稿を削除"),
-                                content: Text("レシピを削除しますが、よろしいですか？"),
+                                title: Text("削除"),
+                                content: Text("投稿を削除しますが、よろしいですか？"),
                                 actions: [
                                   TextButton(
                                     child: Text("いいえ"),
@@ -224,7 +181,7 @@ class _EditRecipeState extends State<EditRecipe> {
                                     child: Text("はい"),
                                     onPressed: () {
                                       FirebaseFirestore.instance
-                                          .collection('recipes')
+                                          .collection('diaries')
                                           .doc(widget.docID)
                                           .delete();
                                       Navigator.of(context)
