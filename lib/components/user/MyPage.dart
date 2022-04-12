@@ -2,6 +2,7 @@ import 'package:curry_app/components/recipe/UserRecipes.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:curry_app/components/diary/UserDiaries.dart';
+import 'package:curry_app/components/user/EditUser.dart';
 
 class MyPage extends StatefulWidget {
   @override
@@ -29,28 +30,40 @@ class _MyPageState extends State<MyPage> {
                     currentUser!.displayName ?? "未設定",
                     style: TextStyle(fontSize: 20.0, height: 2.0),
                   ),
-                  Container(
-                    width: 110.0,
-                    height: 110.0,
-                    decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        image: DecorationImage(
-                            fit: BoxFit.fill,
-                            image: AssetImage("assets/noimage.png"))),
-                  ),
-                  TextButton(child: Text("設定"), onPressed: () {}),
+                  currentUser!.photoURL != null
+                      ? Container(
+                          width: 110.0,
+                          height: 110.0,
+                          decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              image: DecorationImage(
+                                image: NetworkImage(currentUser!.photoURL!),
+                                fit: BoxFit.fill,
+                              )))
+                      : Container(
+                          width: 110.0,
+                          height: 110.0,
+                          decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              image: DecorationImage(
+                                image: AssetImage('assets/noimage.png'),
+                                fit: BoxFit.fill,
+                              )),
+                        ),
+                  TextButton(
+                      child: Text("設定"),
+                      onPressed: () {
+                        showModalBottomSheet(
+                            backgroundColor: Colors.black12,
+                            context: context,
+                            isScrollControlled: true,
+                            builder: (BuildContext context) {
+                              return EditUser();
+                            });
+                      }),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      // ListTile(
-                      //   title: Text("カレー"),
-                      //   subtitle: Text("0"),
-                      //   onTap: () {
-                      //     setState(() {
-                      //       _selectedIndex = 0;
-                      //     });
-                      //   },
-                      // ),
                       GestureDetector(
                         onTap: () {
                           setState(() {

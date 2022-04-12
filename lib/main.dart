@@ -2,6 +2,7 @@ import 'package:curry_app/ImageStatus.dart';
 import 'package:curry_app/UserStatus.dart';
 import 'package:curry_app/components/MenuDrawer.dart';
 import 'package:curry_app/components/recipe/PostRecipe.dart';
+import 'package:curry_app/components/user/Login.dart';
 import 'package:curry_app/components/user/MyPage.dart';
 import 'package:flutter/material.dart';
 import 'package:curry_app/CustomClass.dart';
@@ -10,6 +11,7 @@ import 'package:curry_app/components/diary/PostDiary.dart';
 import 'package:curry_app/components/recipe/Recipes.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 void main() {
   runApp(
@@ -62,6 +64,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _selectedNavContent = 0;
   int _selectedPage = 0;
+  User? currentUser = FirebaseAuth.instance.currentUser;
 
   void _onItemTapped(int index) {
     setState(() {
@@ -103,6 +106,9 @@ class _MyHomePageState extends State<MyHomePage> {
                     context: context,
                     isScrollControlled: true,
                     builder: (BuildContext context) {
+                      if (currentUser == null) {
+                        return Login();
+                      }
                       return PostDiary();
                     });
               },
@@ -117,6 +123,9 @@ class _MyHomePageState extends State<MyHomePage> {
                     context: context,
                     isScrollControlled: true,
                     builder: (BuildContext context) {
+                      if (currentUser == null) {
+                        return Login();
+                      }
                       return PostRecipe();
                     });
               },
