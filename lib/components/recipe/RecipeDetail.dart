@@ -69,7 +69,7 @@ class _RecipeDetailState extends State<RecipeDetail> {
             .collection('recipes')
             .doc(widget.docID)
             .collection('liked_users')
-            .doc(currentUser!.uid)
+            .doc(currentUser?.uid)
             .snapshots(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           bool isLiked;
@@ -89,6 +89,15 @@ class _RecipeDetailState extends State<RecipeDetail> {
           if (snapshot.hasError) {
             //
             return const Text('Something went wrong');
+          }
+
+          if (currentUser == null) {
+            return IconButton(
+              padding: EdgeInsets.all(0.0),
+              icon: const Icon(Icons.star_border_outlined, size: 30),
+              color: Colors.orange,
+              onPressed: () {},
+            );
           }
 
           if (!isLiked) {
@@ -143,7 +152,7 @@ class _RecipeDetailState extends State<RecipeDetail> {
         ),
         Row(
           children: [
-            if (currentUser!.uid == widget.data['user_id'])
+            if (currentUser?.uid == widget.data['user_id'])
               Column(
                 children: [
                   _editButton,
