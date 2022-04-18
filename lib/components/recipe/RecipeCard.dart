@@ -55,12 +55,14 @@ class _RecipeCardState extends State<RecipeCard> {
                         width: 120,
                         height: 120,
                         padding: EdgeInsets.only(right: 10),
-                        child: widget.data["imageURL"] != null
-                            ? Image.network(widget.data["imageURL"])
+                        child: widget.data["image_url"] != null
+                            ? Image.network(widget.data["image_url"])
                             : Image.asset('assets/noimage.png',
                                 fit: BoxFit.cover),
                       ),
-                      Column(
+                      Container(
+                        width: 270,
+                        child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(widget.data["title"],
@@ -70,9 +72,15 @@ class _RecipeCardState extends State<RecipeCard> {
                           Text("by " + snapshot.data['name'],
                               style: TextStyle(height: 1.5)),
                           Text(widget.data['ingredients'].join(","),
-                              style: TextStyle(height: 2.0))
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                              softWrap: false,
+
+                              style: TextStyle(height: 2.0),
+                              )
                         ],
                       ),
+                      )
                     ],
                   ),
                 )),
