@@ -64,7 +64,6 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _selectedNavContent = 0;
   int _selectedPage = 0;
-  User? currentUser = FirebaseAuth.instance.currentUser;
 
   void _onItemTapped(int index) {
     setState(() {
@@ -106,7 +105,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     context: context,
                     isScrollControlled: true,
                     builder: (BuildContext context) {
-                      if (currentUser == null) {
+                      if (FirebaseAuth.instance.currentUser == null) {
                         return Login();
                       }
                       return PostDiary();
@@ -123,7 +122,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     context: context,
                     isScrollControlled: true,
                     builder: (BuildContext context) {
-                      if (currentUser == null) {
+                      if (FirebaseAuth.instance.currentUser == null) {
                         return Login();
                       }
                       return PostRecipe();
