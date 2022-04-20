@@ -61,25 +61,25 @@ class _RecipeCardState extends State<RecipeCard> {
                                 fit: BoxFit.cover),
                       ),
                       Container(
-                        width: 270,
+                        width: 240,
                         child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(widget.data["title"],
-                              style: TextStyle(
-                                  fontSize: 20,
-                                  color: CommonColor.primaryColor[800])),
-                          Text("by " + snapshot.data['name'],
-                              style: TextStyle(height: 1.5)),
-                          Text(widget.data['ingredients'].join(","),
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(widget.data["title"],
+                                style: TextStyle(
+                                    fontSize: 20,
+                                    color: CommonColor.primaryColor[800])),
+                            Text("by " + snapshot.data['name'],
+                                style: TextStyle(height: 1.5)),
+                            Text(
+                              widget.data['ingredients'].join(","),
                               overflow: TextOverflow.ellipsis,
                               maxLines: 1,
                               softWrap: false,
-
                               style: TextStyle(height: 2.0),
-                              )
-                        ],
-                      ),
+                            )
+                          ],
+                        ),
                       )
                     ],
                   ),

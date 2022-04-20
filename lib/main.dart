@@ -1,6 +1,7 @@
 import 'package:curry_app/ImageStatus.dart';
 import 'package:curry_app/UserStatus.dart';
 import 'package:curry_app/components/MenuDrawer.dart';
+import 'package:curry_app/components/inquiry/Inquiry.dart';
 import 'package:curry_app/components/recipe/PostRecipe.dart';
 import 'package:curry_app/components/user/Login.dart';
 import 'package:curry_app/components/user/MyPage.dart';
@@ -78,7 +79,8 @@ class _MyHomePageState extends State<MyHomePage> {
   List<Widget> _titleList = <Widget>[
     Text("みんなのカレー"),
     Text("レシピ"),
-    Text("マイページ")
+    Text("マイページ"),
+    Text("お問い合わせ"),
   ];
 
   @override
@@ -87,6 +89,7 @@ class _MyHomePageState extends State<MyHomePage> {
       Diaries(),
       Recipes(),
       MyPage(),
+      Inquiry(),
     ];
 
     return Scaffold(

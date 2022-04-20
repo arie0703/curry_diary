@@ -92,6 +92,14 @@ class _MenuDrawerState extends State<MenuDrawer> {
               Navigator.pop(context);
             },
           ),
+          ListTile(
+            title: Text("お問い合わせ"),
+            leading: Icon(Icons.help),
+            onTap: () {
+              widget.onItemTapped(3);
+              Navigator.pop(context);
+            },
+          ),
         ],
       ),
     ));
