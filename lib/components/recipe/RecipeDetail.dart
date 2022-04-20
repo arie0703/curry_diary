@@ -214,8 +214,8 @@ class _RecipeDetailState extends State<RecipeDetail> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      widget.data["imageURL"] != null
-                          ? Image.network(widget.data["imageURL"])
+                      widget.data["image_url"] != null
+                          ? Image.network(widget.data["image_url"])
                           : Image.asset('assets/noimage.png',
                               width: MediaQuery.of(context).size.width,
                               fit: BoxFit.cover),

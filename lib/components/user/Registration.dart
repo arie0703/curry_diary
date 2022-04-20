@@ -1,3 +1,4 @@
+import 'package:curry_app/components/TermsOfService.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -14,6 +15,7 @@ class _RegistrationState extends State<Registration> {
   String password = "";
   String infoText = "";
   bool isValid = false;
+  bool isReadTerms = false;
 
   final FirebaseAuth auth = FirebaseAuth.instance;
   UserCredential? result;
@@ -69,47 +71,69 @@ class _RegistrationState extends State<Registration> {
                 style: TextStyle(color: Colors.red),
               ),
             ),
-            ButtonTheme(
-              minWidth: 350.0,
-              child: ElevatedButton(
-                child: Text(
-                  '登録',
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-                onPressed: () async {
-                  if (isValid) {
-                    try {
-                      // メール/パスワードでユーザー登録
-                      await auth
-                          .createUserWithEmailAndPassword(
-                            email: email,
-                            password: password,
-                          )
-                          .then((res) => {res.user!.updateDisplayName(name)});
-
-                      FirebaseFirestore.instance
-                          .collection('users')
-                          .doc(result!.user!.uid)
-                          .set({
-                        'uid': result!.user!.uid,
-                        'name': name,
-                        'created_at': DateTime.now()
+            TextButton(
+                onPressed: () {
+                  setState(() {
+                    isReadTerms = true;
+                  });
+                  showModalBottomSheet(
+                      backgroundColor: Colors.transparent,
+                      context: context,
+                      isScrollControlled: true,
+                      builder: (BuildContext context) {
+                        return TermsOfService();
                       });
-
-                      Navigator.pop(context);
-                    } catch (e) {
-                      setState(() {
-                        debugPrint("registration failed");
-                      });
-                    }
-                  } else {
-                    setState(() {
-                      infoText = 'パスワードは8文字以上です。';
-                    });
-                  }
                 },
-              ),
-            ),
+                child: Text("利用規約")),
+            ButtonTheme(
+                minWidth: 350.0,
+                child: isReadTerms
+                    ? ElevatedButton(
+                        child: Text(
+                          '規約に同意して登録',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        onPressed: () async {
+                          if (isValid) {
+                            try {
+                              // メール/パスワードでユーザー登録
+                              await auth
+                                  .createUserWithEmailAndPassword(
+                                email: email,
+                                password: password,
+                              )
+                                  .then((res) {
+                                FirebaseFirestore.instance
+                                    .collection('users')
+                                    .doc(res.user!.uid)
+                                    .set({
+                                  'uid': res.user!.uid,
+                                  'name': name,
+                                  'created_at': DateTime.now()
+                                });
+                                res.user?.updateDisplayName(name);
+                                Navigator.pop(context);
+                              });
+                            } catch (e) {
+                              debugPrint(e.toString());
+                            }
+                          } else {
+                            setState(() {
+                              infoText = 'パスワードは8文字以上です。';
+                            });
+                          }
+                        },
+                      )
+                    : ElevatedButton(
+                        child: Text(
+                          '規約をお読みください',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        onPressed: () {},
+                        style: ElevatedButton.styleFrom(
+                          primary: Colors.grey,
+                        ),
+                      )),
           ],
         ),
       ),

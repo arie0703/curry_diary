@@ -1,6 +1,7 @@
 import 'package:curry_app/ImageStatus.dart';
 import 'package:curry_app/UserStatus.dart';
 import 'package:curry_app/components/MenuDrawer.dart';
+import 'package:curry_app/components/inquiry/Inquiry.dart';
 import 'package:curry_app/components/recipe/PostRecipe.dart';
 import 'package:curry_app/components/user/Login.dart';
 import 'package:curry_app/components/user/MyPage.dart';
@@ -64,7 +65,6 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _selectedNavContent = 0;
   int _selectedPage = 0;
-  User? currentUser = FirebaseAuth.instance.currentUser;
 
   void _onItemTapped(int index) {
     setState(() {
@@ -79,7 +79,8 @@ class _MyHomePageState extends State<MyHomePage> {
   List<Widget> _titleList = <Widget>[
     Text("みんなのカレー"),
     Text("レシピ"),
-    Text("マイページ")
+    Text("マイページ"),
+    Text("お問い合わせ"),
   ];
 
   @override
@@ -88,6 +89,7 @@ class _MyHomePageState extends State<MyHomePage> {
       Diaries(),
       Recipes(),
       MyPage(),
+      Inquiry(),
     ];
 
     return Scaffold(
@@ -106,7 +108,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     context: context,
                     isScrollControlled: true,
                     builder: (BuildContext context) {
-                      if (currentUser == null) {
+                      if (FirebaseAuth.instance.currentUser == null) {
                         return Login();
                       }
                       return PostDiary();
@@ -123,7 +125,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     context: context,
                     isScrollControlled: true,
                     builder: (BuildContext context) {
-                      if (currentUser == null) {
+                      if (FirebaseAuth.instance.currentUser == null) {
                         return Login();
                       }
                       return PostRecipe();
