@@ -85,8 +85,9 @@ class _RegistrationState extends State<Registration> {
                       });
                 },
                 child: Text("利用規約")),
-            ButtonTheme(
-                minWidth: 350.0,
+            SizedBox(
+                width: 300.0,
+                height: 50.0,
                 child: isReadTerms
                     ? ElevatedButton(
                         child: Text(

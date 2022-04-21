@@ -48,8 +48,9 @@ class _LoginState extends State<Login> {
                 style: TextStyle(color: Colors.red),
               ),
             ),
-            ButtonTheme(
-              minWidth: 350.0,
+            SizedBox(
+              width: 300.0,
+              height: 50.0,
               child: ElevatedButton(
                   child: Text(
                     'ログイン',
@@ -64,6 +65,9 @@ class _LoginState extends State<Login> {
                       Navigator.pop(context);
                     } catch (e) {
                       debugPrint("login failed");
+                      setState(() {
+                        infoText = "ログインに失敗しました";
+                      });
                     }
                   }),
             ),
