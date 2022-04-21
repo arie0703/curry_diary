@@ -73,7 +73,7 @@ class _MyPageState extends State<MyPage> {
                         child: Padding(
                           padding: EdgeInsets.all(20.0),
                           child: Text(
-                            "カレー\n0",
+                            "カレー",
                             style: TextStyle(
                                 fontWeight: _selectedIndex == 0
                                     ? FontWeight.bold
@@ -91,7 +91,7 @@ class _MyPageState extends State<MyPage> {
                         child: Padding(
                           padding: EdgeInsets.all(20.0),
                           child: Text(
-                            "レシピ\n0",
+                            "レシピ",
                             style: TextStyle(
                                 fontWeight: _selectedIndex == 1
                                     ? FontWeight.bold
