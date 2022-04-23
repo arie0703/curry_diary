@@ -23,6 +23,8 @@ class _RecipeDetailState extends State<RecipeDetail> {
 
   @override
   Widget build(BuildContext context) {
+    double _windowHeight = MediaQuery.of(context).size.height * 0.9;
+
     void updateLikeCount() async {
       int count = 0;
 
@@ -175,7 +177,7 @@ class _RecipeDetailState extends State<RecipeDetail> {
     );
 
     return Container(
-        height: 800,
+        height: _windowHeight,
         child: Column(
           children: [
             // header
@@ -208,7 +210,7 @@ class _RecipeDetailState extends State<RecipeDetail> {
                     ])),
             // body
             Container(
-                height: 740,
+                height: _windowHeight - 60,
                 color: CommonColor.primaryColor[100],
                 child: SingleChildScrollView(
                   child: Column(
