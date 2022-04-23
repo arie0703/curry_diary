@@ -61,7 +61,7 @@ class _RecipeCardState extends State<RecipeCard> {
                                 fit: BoxFit.cover),
                       ),
                       Container(
-                        width: 240,
+                        width: MediaQuery.of(context).size.width - 150,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [

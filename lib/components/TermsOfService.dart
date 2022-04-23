@@ -4,8 +4,9 @@ import 'package:curry_app/CustomClass.dart';
 class TermsOfService extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    double _windowHeight = MediaQuery.of(context).size.height * 0.9;
     return Container(
-        height: 800,
+        height: _windowHeight,
         child: Column(
           children: [
             // header
@@ -38,8 +39,9 @@ class TermsOfService extends StatelessWidget {
                     ])),
             // body
             Container(
-                height: 740,
+                height: _windowHeight - 60,
                 color: CommonColor.primaryColor[100],
+                padding: EdgeInsets.all(10.0),
                 child: SingleChildScrollView(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,

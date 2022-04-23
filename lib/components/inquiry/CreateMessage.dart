@@ -26,8 +26,9 @@ class _CreateMessageState extends State<CreateMessage> {
   User? currentUser = FirebaseAuth.instance.currentUser;
   @override
   Widget build(BuildContext context) {
+    double _windowHeight = MediaQuery.of(context).size.height * 0.9;
     return Container(
-      height: 800,
+      height: _windowHeight,
       child: Column(
         children: [
           Container(
@@ -58,7 +59,7 @@ class _CreateMessageState extends State<CreateMessage> {
                     )
                   ])),
           Container(
-            height: 740,
+            height: _windowHeight - 60,
             padding: EdgeInsets.all(10),
             color: CommonColor.primaryColor[100],
             child: Column(
