@@ -3,6 +3,7 @@ import 'package:curry_app/CustomClass.dart';
 import 'package:curry_app/components/diary/EditDiary.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class DiaryCard extends StatefulWidget {
   const DiaryCard({
@@ -148,8 +149,14 @@ class _DiaryCardState extends State<DiaryCard> {
                 ),
                 if (widget.data["image_url"] != null)
                   Container(
-                      alignment: Alignment.center,
-                      child: Image.network(widget.data["image_url"]!)),
+                    alignment: Alignment.center,
+                    child: CachedNetworkImage(
+                      imageUrl: widget.data['image_url'],
+                      placeholder: (context, url) =>
+                          CircularProgressIndicator(),
+                      errorWidget: (context, url, error) => Icon(Icons.error),
+                    ),
+                  ),
                 ButtonTheme(
                   child: ButtonBar(
                     alignment: MainAxisAlignment.start,

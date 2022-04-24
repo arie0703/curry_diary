@@ -30,6 +30,7 @@ class _RecipesState extends State<Recipes> {
           return const Text('Something went wrong');
         }
         return ListView(
+          cacheExtent: 250.0 * 5.0,
           // リストで表示
 
           children: snapshot.data!.docs.map(

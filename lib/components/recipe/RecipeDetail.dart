@@ -3,6 +3,7 @@ import 'package:curry_app/CustomClass.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:curry_app/components/recipe/EditRecipe.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class RecipeDetail extends StatefulWidget {
   const RecipeDetail(
@@ -217,7 +218,13 @@ class _RecipeDetailState extends State<RecipeDetail> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       widget.data["image_url"] != null
-                          ? Image.network(widget.data["image_url"])
+                          ? CachedNetworkImage(
+                              imageUrl: widget.data['image_url'],
+                              placeholder: (context, url) =>
+                                  CircularProgressIndicator(),
+                              errorWidget: (context, url, error) =>
+                                  Icon(Icons.error),
+                            )
                           : Image.asset('assets/noimage.png',
                               width: MediaQuery.of(context).size.width,
                               fit: BoxFit.cover),

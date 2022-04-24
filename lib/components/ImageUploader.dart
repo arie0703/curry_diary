@@ -13,8 +13,8 @@ class _ImageUploaderState extends State<ImageUploader> {
   File? _selectedImage;
   Future<void> _upload() async {
     // imagePickerで画像を選択する
-    final PickedFile? pickerFile =
-        await ImagePicker().getImage(source: ImageSource.gallery);
+    final PickedFile? pickerFile = await ImagePicker()
+        .getImage(source: ImageSource.gallery, imageQuality: 70);
     File file = File(pickerFile!.path);
 
     setState(() {
