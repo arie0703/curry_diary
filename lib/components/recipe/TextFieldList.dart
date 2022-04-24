@@ -30,7 +30,7 @@ class _TextFieldListState extends State<TextFieldList> {
                   ),
                 ),
                 IconButton(
-                  icon: Icon(Icons.close),
+                  icon: const Icon(Icons.close),
                   onPressed: () {
                     setState(() {
                       widget.list.removeAt(index);
@@ -43,7 +43,7 @@ class _TextFieldListState extends State<TextFieldList> {
         ),
         if (widget.list.length < 10)
           ElevatedButton(
-            child: Text("追加"),
+            child: const Text("追加"),
             onPressed: () {
               setState(() {
                 widget.list.add("");

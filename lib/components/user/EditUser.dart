@@ -61,25 +61,27 @@ class _EditUserState extends State<EditUser> {
 
   @override
   void initState() {
+    super.initState();
     name = currentUser!.displayName;
     email = currentUser!.email;
   }
 
   Widget build(BuildContext context) {
+    double _windowHeight = MediaQuery.of(context).size.height * 0.9;
     File? _selectedImage =
         Provider.of<ImageStatus>(context, listen: false).selectedImage;
 
     return Container(
-      height: 800,
+      height: _windowHeight,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           Container(
-              padding: EdgeInsets.all(10),
+              padding: const EdgeInsets.all(10),
               height: 60,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: Colors.black26,
-                borderRadius: const BorderRadius.only(
+                borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(15),
                   topRight: Radius.circular(15),
                 ),
@@ -87,36 +89,36 @@ class _EditUserState extends State<EditUser> {
               child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Expanded(
+                    const Expanded(
                         child: Text('ユーザー情報の編集',
                             style:
                                 TextStyle(fontSize: 20, color: Colors.white))),
                     IconButton(
-                      icon: Icon(Icons.close, color: Colors.white),
+                      icon: const Icon(Icons.close, color: Colors.white),
                       onPressed: () {
                         Navigator.pop(context);
                       },
                     )
                   ])),
           Container(
-              height: 740,
+              height: _windowHeight - 60,
               color: CommonColor.primaryColor[100],
               child: Column(
                 children: [
                   Padding(
-                      padding: EdgeInsets.fromLTRB(25.0, 0, 25.0, 0),
+                      padding: const EdgeInsets.fromLTRB(25.0, 0, 25.0, 0),
                       child: TextFormField(
                         initialValue: currentUser!.displayName,
-                        decoration: InputDecoration(labelText: "ユーザー名"),
+                        decoration: const InputDecoration(labelText: "ユーザー名"),
                         onChanged: (String value) {
                           name = value;
                         },
                       )),
                   Padding(
-                      padding: EdgeInsets.fromLTRB(25.0, 0, 25.0, 0),
+                      padding: const EdgeInsets.fromLTRB(25.0, 0, 25.0, 0),
                       child: TextFormField(
                         initialValue: currentUser!.email,
-                        decoration: InputDecoration(labelText: "メールアドレス"),
+                        decoration: const InputDecoration(labelText: "メールアドレス"),
                         onChanged: (String value) {
                           email = value;
                         },
@@ -125,7 +127,7 @@ class _EditUserState extends State<EditUser> {
                   ButtonTheme(
                     minWidth: 350.0,
                     child: ElevatedButton(
-                      child: Text(
+                      child: const Text(
                         '更新',
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),

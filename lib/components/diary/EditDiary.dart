@@ -170,15 +170,15 @@ class _EditDiaryState extends State<EditDiary> {
                             builder: (_) {
                               return AlertDialog(
                                 backgroundColor: CommonColor.primaryColor[50],
-                                title: Text("削除"),
-                                content: Text("投稿を削除しますが、よろしいですか？"),
+                                title: const Text("削除"),
+                                content: const Text("投稿を削除しますが、よろしいですか？"),
                                 actions: [
                                   TextButton(
-                                    child: Text("いいえ"),
+                                    child: const Text("いいえ"),
                                     onPressed: () => Navigator.pop(context),
                                   ),
                                   TextButton(
-                                    child: Text("はい"),
+                                    child: const Text("はい"),
                                     onPressed: () {
                                       FirebaseFirestore.instance
                                           .collection('diaries')

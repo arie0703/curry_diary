@@ -3,6 +3,7 @@ import 'package:curry_app/CustomClass.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:curry_app/components/recipe/EditRecipe.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class RecipeDetail extends StatefulWidget {
   const RecipeDetail(
@@ -95,7 +96,7 @@ class _RecipeDetailState extends State<RecipeDetail> {
 
           if (currentUser == null) {
             return IconButton(
-              padding: EdgeInsets.all(0.0),
+              padding: const EdgeInsets.all(0.0),
               icon: const Icon(Icons.star_border_outlined, size: 30),
               color: Colors.orange,
               onPressed: () {},
@@ -104,7 +105,7 @@ class _RecipeDetailState extends State<RecipeDetail> {
 
           if (!isLiked) {
             return IconButton(
-              padding: EdgeInsets.all(0.0),
+              padding: const EdgeInsets.all(0.0),
               icon: const Icon(Icons.star_border_outlined, size: 30),
               color: Colors.orange,
               onPressed: () {
@@ -114,7 +115,7 @@ class _RecipeDetailState extends State<RecipeDetail> {
           }
 
           return IconButton(
-            padding: EdgeInsets.all(0.0),
+            padding: const EdgeInsets.all(0.0),
             icon: const Icon(Icons.star, size: 30),
             color: Colors.orange,
             onPressed: () {
@@ -148,7 +149,7 @@ class _RecipeDetailState extends State<RecipeDetail> {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(widget.data['title'], style: TextStyle(fontSize: 25)),
+            Text(widget.data['title'], style: const TextStyle(fontSize: 25)),
             Text('by ' + widget.userName),
           ],
         ),
@@ -158,7 +159,7 @@ class _RecipeDetailState extends State<RecipeDetail> {
               Column(
                 children: [
                   _editButton,
-                  Text('編集',
+                  const Text('編集',
                       style: TextStyle(
                           height: 0.5, fontSize: 12, color: Colors.black87))
                 ],
@@ -166,7 +167,7 @@ class _RecipeDetailState extends State<RecipeDetail> {
             Column(
               children: [
                 _likeButton,
-                Text('いいね!',
+                const Text('いいね!',
                     style: TextStyle(
                         height: 0.5, fontSize: 12, color: Colors.black87))
               ],
@@ -182,9 +183,9 @@ class _RecipeDetailState extends State<RecipeDetail> {
           children: [
             // header
             Container(
-                padding: EdgeInsets.all(10),
+                padding: const EdgeInsets.all(10),
                 height: 60,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: Colors.black26,
                   borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(15),
@@ -197,12 +198,12 @@ class _RecipeDetailState extends State<RecipeDetail> {
                       Expanded(
                           child: Text(widget.data["title"],
                               textAlign: TextAlign.center,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 color: Colors.white,
                                 fontSize: 22,
                               ))),
                       IconButton(
-                        icon: Icon(Icons.close, color: Colors.white),
+                        icon: const Icon(Icons.close, color: Colors.white),
                         onPressed: () {
                           Navigator.pop(context);
                         },
@@ -217,7 +218,13 @@ class _RecipeDetailState extends State<RecipeDetail> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       widget.data["image_url"] != null
-                          ? Image.network(widget.data["image_url"])
+                          ? CachedNetworkImage(
+                              imageUrl: widget.data['image_url'],
+                              placeholder: (context, url) =>
+                                  CircularProgressIndicator(),
+                              errorWidget: (context, url, error) =>
+                                  Icon(Icons.error),
+                            )
                           : Image.asset('assets/noimage.png',
                               width: MediaQuery.of(context).size.width,
                               fit: BoxFit.cover),
@@ -229,14 +236,15 @@ class _RecipeDetailState extends State<RecipeDetail> {
                               _infoBar,
                               Text(
                                 widget.data['content'],
-                                style: TextStyle(fontSize: 18, height: 2.0),
+                                style:
+                                    const TextStyle(fontSize: 18, height: 2.0),
                               ),
                               for (int i = 0;
                                   i < widget.data['procedure'].length;
                                   i++)
                                 Container(
-                                  padding: EdgeInsets.all(8.0),
-                                  margin: EdgeInsets.only(bottom: 6.0),
+                                  padding: const EdgeInsets.all(8.0),
+                                  margin: const EdgeInsets.only(bottom: 6.0),
                                   decoration: BoxDecoration(
                                     border: Border(
                                         bottom: BorderSide(
@@ -248,7 +256,7 @@ class _RecipeDetailState extends State<RecipeDetail> {
                                         CrossAxisAlignment.center,
                                     children: [
                                       Text((i + 1).toString()),
-                                      SizedBox(
+                                      const SizedBox(
                                         width: 20,
                                       ),
                                       Flexible(

@@ -1,3 +1,4 @@
+import 'package:curry_app/components/BottomSheetTemplate.dart';
 import 'package:curry_app/components/ImageUploader.dart';
 import 'package:curry_app/components/recipe/TextFieldList.dart';
 import 'package:flutter/material.dart';
@@ -82,7 +83,7 @@ class _PostRecipeState extends State<PostRecipe> {
               children: [
                 Container(
                     width: double.maxFinite,
-                    padding: EdgeInsets.all(10),
+                    padding: const EdgeInsets.all(10),
                     child: TextFieldList(list: list))
               ],
             );
@@ -95,103 +96,90 @@ class _PostRecipeState extends State<PostRecipe> {
     File? _selectedImage =
         Provider.of<ImageStatus>(context, listen: false).selectedImage;
 
-    return Scaffold(
-      body: Container(
-          margin: const EdgeInsets.all(20),
-          padding: const EdgeInsets.only(
-            top: 100,
-          ),
-          child: ListView(
-            children: [
-              const Text(
-                "レシピを投稿",
-                style: TextStyle(
-                  fontSize: 20,
+    Widget _newRecipe = ListView(
+      children: [
+        Form(
+            key: _formKey,
+            child: Column(children: [
+              Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  child: TextFormField(
+                    controller: titleController,
+                    decoration: InputDecoration(
+                      border: const OutlineInputBorder(),
+                      hintText: 'タイトル',
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                            color: (Colors.orange[700])!, width: 2.0),
+                        borderRadius: BorderRadius.circular(5.0),
+                      ),
+                      suffixIcon: IconButton(
+                          icon: const Icon(Icons.remove, color: Colors.grey),
+                          onPressed: () {
+                            titleController.clear();
+                            title = "";
+                          }),
+                    ),
+                    onChanged: (text) {
+                      title = text;
+                    },
+                  )),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8),
+                child: TextFormField(
+                  controller: contentController,
+                  decoration: InputDecoration(
+                    border: const OutlineInputBorder(),
+                    hintText: 'コメント',
+                    focusedBorder: OutlineInputBorder(
+                      borderSide:
+                          BorderSide(color: (Colors.orange[800])!, width: 2.0),
+                      borderRadius: BorderRadius.circular(5.0),
+                    ),
+                    suffixIcon: IconButton(
+                        icon: const Icon(Icons.remove, color: Colors.grey),
+                        onPressed: () {
+                          contentController.clear();
+                          content = "";
+                        }),
+                  ),
+                  onChanged: (text) {
+                    content = text;
+                  },
                 ),
               ),
-              Form(
-                  key: _formKey,
-                  child: Column(children: [
-                    Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8),
-                        child: TextFormField(
-                          controller: titleController,
-                          decoration: InputDecoration(
-                            border: const OutlineInputBorder(),
-                            hintText: 'タイトル',
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: (Colors.orange[700])!, width: 2.0),
-                              borderRadius: BorderRadius.circular(5.0),
-                            ),
-                            suffixIcon: IconButton(
-                                icon: const Icon(Icons.remove,
-                                    color: Colors.grey),
-                                onPressed: () {
-                                  titleController.clear();
-                                  title = "";
-                                }),
-                          ),
-                          onChanged: (text) {
-                            title = text;
-                          },
-                        )),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8),
-                      child: TextFormField(
-                        controller: contentController,
-                        decoration: InputDecoration(
-                          border: const OutlineInputBorder(),
-                          hintText: 'コメント',
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                                color: (Colors.orange[800])!, width: 2.0),
-                            borderRadius: BorderRadius.circular(5.0),
-                          ),
-                          suffixIcon: IconButton(
-                              icon:
-                                  const Icon(Icons.remove, color: Colors.grey),
-                              onPressed: () {
-                                contentController.clear();
-                                content = "";
-                              }),
-                        ),
-                        onChanged: (text) {
-                          content = text;
-                        },
-                      ),
-                    ),
-                    TextButton(
-                      child: Text("材料"),
-                      onPressed: () async {
-                        await _showDialog("材料を追加", ingredients);
-                      },
-                    ),
-                    TextButton(
-                      child: Text("つくりかた"),
-                      onPressed: () async {
-                        await _showDialog("つくりかたを追加", procedure);
-                      },
-                    ),
-                    ImageUploader(),
-                    SizedBox(
-                      width: 250,
-                      height: 50,
-                      child: ElevatedButton(
-                        child: const Text('投稿する'),
-                        style: ElevatedButton.styleFrom(
-                            primary: CommonColor.primaryColor),
-                        onPressed: () {
-                          if (_formKey.currentState!.validate()) {
-                            PostRecipe(title, content, _selectedImage);
-                            Navigator.pop(context);
-                          }
-                        },
-                      ),
-                    ),
-                  ]))
-            ],
-          )),
+              TextButton(
+                child: const Text("材料"),
+                onPressed: () async {
+                  await _showDialog("材料を追加", ingredients);
+                },
+              ),
+              TextButton(
+                child: const Text("つくりかた"),
+                onPressed: () async {
+                  await _showDialog("つくりかたを追加", procedure);
+                },
+              ),
+              ImageUploader(),
+              SizedBox(
+                width: 250,
+                height: 50,
+                child: ElevatedButton(
+                  child: const Text('投稿する'),
+                  style: ElevatedButton.styleFrom(
+                      primary: CommonColor.primaryColor),
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      PostRecipe(title, content, _selectedImage);
+                      Navigator.pop(context);
+                    }
+                  },
+                ),
+              ),
+            ]))
+      ],
     );
+
+    return BottomSheetTemplate(title: "レシピを投稿", body: _newRecipe);
   }
 }

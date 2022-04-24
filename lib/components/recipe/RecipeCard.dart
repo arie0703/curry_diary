@@ -2,6 +2,7 @@ import 'package:curry_app/components/recipe/RecipeDetail.dart';
 import 'package:flutter/material.dart';
 import 'package:curry_app/CustomClass.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class RecipeCard extends StatefulWidget {
   const RecipeCard({Key? key, required this.data, required this.docID})
@@ -47,16 +48,22 @@ class _RecipeCardState extends State<RecipeCard> {
             child: Card(
                 color: CommonColor.primaryColor[50],
                 child: Padding(
-                  padding: EdgeInsets.all(10),
+                  padding: const EdgeInsets.all(10),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
                         width: 120,
                         height: 120,
-                        padding: EdgeInsets.only(right: 10),
+                        padding: const EdgeInsets.only(right: 10),
                         child: widget.data["image_url"] != null
-                            ? Image.network(widget.data["image_url"])
+                            ? CachedNetworkImage(
+                                imageUrl: widget.data['image_url'],
+                                placeholder: (context, url) =>
+                                    const Text('Loading...'),
+                                errorWidget: (context, url, error) =>
+                                    const Icon(Icons.error),
+                              )
                             : Image.asset('assets/noimage.png',
                                 fit: BoxFit.cover),
                       ),
@@ -70,13 +77,13 @@ class _RecipeCardState extends State<RecipeCard> {
                                     fontSize: 20,
                                     color: CommonColor.primaryColor[800])),
                             Text("by " + snapshot.data['name'],
-                                style: TextStyle(height: 1.5)),
+                                style: const TextStyle(height: 1.5)),
                             Text(
                               widget.data['ingredients'].join(","),
                               overflow: TextOverflow.ellipsis,
                               maxLines: 1,
                               softWrap: false,
-                              style: TextStyle(height: 2.0),
+                              style: const TextStyle(height: 2.0),
                             )
                           ],
                         ),

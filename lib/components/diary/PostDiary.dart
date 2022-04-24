@@ -1,3 +1,4 @@
+import 'package:curry_app/components/BottomSheetTemplate.dart';
 import 'package:curry_app/components/ImageUploader.dart';
 import 'package:flutter/material.dart';
 import 'package:curry_app/ImageStatus.dart';
@@ -66,91 +67,78 @@ class _PostDiaryState extends State<PostDiary> {
     File? _selectedImage =
         Provider.of<ImageStatus>(context, listen: false).selectedImage;
 
-    return Scaffold(
-      body: Container(
-          margin: const EdgeInsets.all(20),
-          padding: const EdgeInsets.only(
-            top: 100,
-          ),
-          child: Column(
-            children: [
-              const Text(
-                "カレー日記を投稿する",
-                style: TextStyle(
-                  fontSize: 20,
+    Widget _newPost = Column(
+      children: [
+        Form(
+            key: _formKey,
+            child: Column(children: [
+              Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  child: TextFormField(
+                    controller: titleController,
+                    decoration: InputDecoration(
+                      border: const OutlineInputBorder(),
+                      hintText: 'タイトル',
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                            color: (Colors.orange[700])!, width: 2.0),
+                        borderRadius: BorderRadius.circular(5.0),
+                      ),
+                      suffixIcon: IconButton(
+                          icon: const Icon(Icons.remove, color: Colors.grey),
+                          onPressed: () {
+                            titleController.clear();
+                            title = "";
+                          }),
+                    ),
+                    onChanged: (text) {
+                      title = text;
+                    },
+                  )),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8),
+                child: TextFormField(
+                  controller: contentController,
+                  decoration: InputDecoration(
+                    border: const OutlineInputBorder(),
+                    hintText: 'コメント',
+                    focusedBorder: OutlineInputBorder(
+                      borderSide:
+                          BorderSide(color: (Colors.orange[800])!, width: 2.0),
+                      borderRadius: BorderRadius.circular(5.0),
+                    ),
+                    suffixIcon: IconButton(
+                        icon: const Icon(Icons.remove, color: Colors.grey),
+                        onPressed: () {
+                          contentController.clear();
+                          content = "";
+                        }),
+                  ),
+                  onChanged: (text) {
+                    content = text;
+                  },
                 ),
               ),
-              Form(
-                  key: _formKey,
-                  child: Column(children: [
-                    Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8),
-                        child: TextFormField(
-                          controller: titleController,
-                          decoration: InputDecoration(
-                            border: const OutlineInputBorder(),
-                            hintText: 'タイトル',
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: (Colors.orange[700])!, width: 2.0),
-                              borderRadius: BorderRadius.circular(5.0),
-                            ),
-                            suffixIcon: IconButton(
-                                icon: const Icon(Icons.remove,
-                                    color: Colors.grey),
-                                onPressed: () {
-                                  titleController.clear();
-                                  title = "";
-                                }),
-                          ),
-                          onChanged: (text) {
-                            title = text;
-                          },
-                        )),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8),
-                      child: TextFormField(
-                        controller: contentController,
-                        decoration: InputDecoration(
-                          border: const OutlineInputBorder(),
-                          hintText: 'コメント',
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                                color: (Colors.orange[800])!, width: 2.0),
-                            borderRadius: BorderRadius.circular(5.0),
-                          ),
-                          suffixIcon: IconButton(
-                              icon:
-                                  const Icon(Icons.remove, color: Colors.grey),
-                              onPressed: () {
-                                contentController.clear();
-                                content = "";
-                              }),
-                        ),
-                        onChanged: (text) {
-                          content = text;
-                        },
-                      ),
-                    ),
-                    ImageUploader(),
-                    SizedBox(
-                      width: 250,
-                      height: 50,
-                      child: ElevatedButton(
-                        child: const Text('投稿する'),
-                        style: ElevatedButton.styleFrom(
-                            primary: CommonColor.primaryColor),
-                        onPressed: () {
-                          if (_formKey.currentState!.validate()) {
-                            postDiary(title, content, _selectedImage);
-                            Navigator.pop(context);
-                          }
-                        },
-                      ),
-                    ),
-                  ]))
-            ],
-          )),
+              ImageUploader(),
+              SizedBox(
+                width: 250,
+                height: 50,
+                child: ElevatedButton(
+                  child: const Text('投稿する'),
+                  style: ElevatedButton.styleFrom(
+                      primary: CommonColor.primaryColor),
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      postDiary(title, content, _selectedImage);
+                      Navigator.pop(context);
+                    }
+                  },
+                ),
+              ),
+            ]))
+      ],
     );
+
+    return BottomSheetTemplate(title: "カレー日記を投稿", body: _newPost);
   }
 }

@@ -25,11 +25,11 @@ class _MenuDrawerState extends State<MenuDrawer> {
         children: [
           if (currentUser == null)
             ListTile(
-              title: Text("ゲストさん"),
+              title: const Text("ゲストさん"),
               subtitle: Row(
                 children: [
                   TextButton(
-                      child: Text("ログイン"),
+                      child: const Text("ログイン"),
                       onPressed: () {
                         Navigator.pop(context);
                         showModalBottomSheet(
@@ -41,7 +41,7 @@ class _MenuDrawerState extends State<MenuDrawer> {
                             });
                       }),
                   TextButton(
-                      child: Text("会員登録"),
+                      child: const Text("会員登録"),
                       onPressed: () {
                         Navigator.pop(context);
                         showModalBottomSheet(
@@ -53,7 +53,7 @@ class _MenuDrawerState extends State<MenuDrawer> {
                       })
                 ],
               ),
-              leading: Icon(Icons.person),
+              leading: const Icon(Icons.person),
             )
           else
             ListTile(
@@ -61,40 +61,40 @@ class _MenuDrawerState extends State<MenuDrawer> {
               subtitle: Row(
                 children: [
                   TextButton(
-                      child: Text("マイページ"),
+                      child: const Text("マイページ"),
                       onPressed: () {
                         widget.onItemTapped(2);
                         Navigator.pop(context);
                       }),
                   TextButton(
-                      child: Text("ログアウト"),
+                      child: const Text("ログアウト"),
                       onPressed: () {
                         FirebaseAuth.instance.signOut();
                         Navigator.pop(context);
                       }),
                 ],
               ),
-              leading: Icon(Icons.person),
+              leading: const Icon(Icons.person),
             ),
           ListTile(
-            title: Text("みんなのカレー"),
-            leading: Icon(Icons.list),
+            title: const Text("みんなのカレー"),
+            leading: const Icon(Icons.list),
             onTap: () {
               widget.onItemTapped(0);
               Navigator.pop(context);
             },
           ),
           ListTile(
-            title: Text("レシピ"),
-            leading: Icon(Icons.food_bank),
+            title: const Text("レシピ"),
+            leading: const Icon(Icons.food_bank),
             onTap: () {
               widget.onItemTapped(1);
               Navigator.pop(context);
             },
           ),
           ListTile(
-            title: Text("お問い合わせ"),
-            leading: Icon(Icons.help),
+            title: const Text("お問い合わせ"),
+            leading: const Icon(Icons.help),
             onTap: () {
               widget.onItemTapped(3);
               Navigator.pop(context);

@@ -31,7 +31,6 @@ class _MessagesState extends State<Messages> {
           return const Text('Something went wrong');
         }
 
-        List<DocumentSnapshot> books = snapshot.data!.docs;
         return Expanded(
           child: ListView(
             // リストで表示
@@ -40,7 +39,7 @@ class _MessagesState extends State<Messages> {
               return Column(
                 children: [
                   Padding(
-                    padding: EdgeInsets.all(10),
+                    padding: const EdgeInsets.all(10),
                     child: ListTile(
                       title: Text(data["title"]),
                       subtitle: Text(data["content"]),
@@ -51,11 +50,11 @@ class _MessagesState extends State<Messages> {
                             context: context,
                             builder: (_) {
                               return AlertDialog(
-                                title: Text("メッセージを削除"),
-                                content: Text("削除しますか？"),
+                                title: const Text("メッセージを削除"),
+                                content: const Text("削除しますか？"),
                                 actions: <Widget>[
                                   TextButton(
-                                    child: Text("yes"),
+                                    child: const Text("yes"),
                                     onPressed: () {
                                       FirebaseFirestore.instance
                                           .collection('inquiries')
@@ -66,7 +65,7 @@ class _MessagesState extends State<Messages> {
                                     },
                                   ),
                                   TextButton(
-                                    child: Text("Cancel"),
+                                    child: const Text("Cancel"),
                                     onPressed: () {
                                       Navigator.pop(context);
                                     },
@@ -81,15 +80,15 @@ class _MessagesState extends State<Messages> {
                   ),
                   if (data['reply'] != null) // 返答を表示
                     Container(
-                      padding: EdgeInsets.all(5),
+                      padding: const EdgeInsets.all(5),
                       decoration: BoxDecoration(
                         color: Colors.blueGrey,
                         borderRadius: BorderRadius.circular(5),
                       ),
                       child: ListTile(
-                        title: Text("運営からの返答"),
+                        title: const Text("運営からの返答"),
                         subtitle: Text(data['reply']),
-                        leading: Icon(Icons.person),
+                        leading: const Icon(Icons.person),
                       ),
                     )
                 ],

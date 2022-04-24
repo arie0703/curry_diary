@@ -213,15 +213,15 @@ class _EditRecipeState extends State<EditRecipe> {
                             builder: (_) {
                               return AlertDialog(
                                 backgroundColor: CommonColor.primaryColor[50],
-                                title: Text("投稿を削除"),
-                                content: Text("レシピを削除しますが、よろしいですか？"),
+                                title: const Text("投稿を削除"),
+                                content: const Text("レシピを削除しますが、よろしいですか？"),
                                 actions: [
                                   TextButton(
-                                    child: Text("いいえ"),
+                                    child: const Text("いいえ"),
                                     onPressed: () => Navigator.pop(context),
                                   ),
                                   TextButton(
-                                    child: Text("はい"),
+                                    child: const Text("はい"),
                                     onPressed: () {
                                       FirebaseFirestore.instance
                                           .collection('recipes')

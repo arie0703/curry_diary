@@ -40,19 +40,18 @@ class _InquiryState extends State<Inquiry> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Container(
-            margin: EdgeInsets.all(20),
+            margin: const EdgeInsets.all(20),
             child: Center(
               child: Column(
                 children: [
-                  Text("不具合等ございましたらご連絡ください。"),
+                  const Text("不具合等ございましたらご連絡ください。"),
                   const SizedBox(height: 10),
                   SizedBox(
                     width: 200,
                     height: 40,
                     child: ElevatedButton(
-                      child: Text("お問い合わせをする"),
+                      child: const Text("お問い合わせをする"),
                       onPressed: () {
-                        BuildContext mainContext = context;
                         showModalBottomSheet(
                             backgroundColor: Colors.transparent,
                             context: context,
@@ -64,7 +63,7 @@ class _InquiryState extends State<Inquiry> {
                     ),
                   ),
                   const SizedBox(height: 10),
-                  Padding(
+                  const Padding(
                     padding: EdgeInsets.all(10),
                     child: Text("問い合わせ履歴"),
                   ),
