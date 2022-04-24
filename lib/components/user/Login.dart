@@ -1,3 +1,4 @@
+import 'package:curry_app/components/BottomSheetTemplate.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -17,63 +18,61 @@ class _LoginState extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            Padding(
-                padding: EdgeInsets.fromLTRB(25.0, 0, 25.0, 0),
-                child: TextFormField(
-                  decoration: InputDecoration(labelText: "メールアドレス"),
-                  onChanged: (String value) {
-                    email = value;
-                  },
-                )),
-            Padding(
-              padding: EdgeInsets.fromLTRB(25.0, 0, 25.0, 10.0),
-              child: TextFormField(
-                decoration: InputDecoration(labelText: "パスワード（8～20文字）"),
-                obscureText: true,
-                maxLength: 20,
-                onChanged: (String value) {
-                  password = value;
-                },
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.fromLTRB(20.0, 0, 20.0, 5.0),
-              child: Text(
-                infoText,
-                style: TextStyle(color: Colors.red),
-              ),
-            ),
-            SizedBox(
-              width: 300.0,
-              height: 50.0,
-              child: ElevatedButton(
-                  child: Text(
-                    'ログイン',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  onPressed: () async {
-                    try {
-                      result = await auth.signInWithEmailAndPassword(
-                        email: email,
-                        password: password,
-                      );
-                      Navigator.pop(context);
-                    } catch (e) {
-                      debugPrint("login failed");
-                      setState(() {
-                        infoText = "ログインに失敗しました";
-                      });
-                    }
-                  }),
-            ),
-          ],
+    Widget _loginWidget = Column(
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        Padding(
+            padding: EdgeInsets.fromLTRB(25.0, 0, 25.0, 0),
+            child: TextFormField(
+              decoration: InputDecoration(labelText: "メールアドレス"),
+              onChanged: (String value) {
+                email = value;
+              },
+            )),
+        Padding(
+          padding: EdgeInsets.fromLTRB(25.0, 0, 25.0, 10.0),
+          child: TextFormField(
+            decoration: InputDecoration(labelText: "パスワード（8～20文字）"),
+            obscureText: true,
+            maxLength: 20,
+            onChanged: (String value) {
+              password = value;
+            },
+          ),
         ),
-      ),
+        Padding(
+          padding: EdgeInsets.fromLTRB(20.0, 0, 20.0, 5.0),
+          child: Text(
+            infoText,
+            style: TextStyle(color: Colors.red),
+          ),
+        ),
+        SizedBox(
+          width: 300.0,
+          height: 50.0,
+          child: ElevatedButton(
+              child: Text(
+                'ログイン',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              onPressed: () async {
+                try {
+                  result = await auth.signInWithEmailAndPassword(
+                    email: email,
+                    password: password,
+                  );
+                  Navigator.pop(context);
+                } catch (e) {
+                  debugPrint("login failed");
+                  setState(() {
+                    infoText = "ログインに失敗しました";
+                  });
+                }
+              }),
+        ),
+      ],
     );
+
+    return BottomSheetTemplate(title: "ログイン", body: _loginWidget);
   }
 }
