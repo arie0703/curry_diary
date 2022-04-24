@@ -34,7 +34,10 @@ class _UserDiariesState extends State<UserDiaries> {
             (doc) {
               Map<String, dynamic> data = doc.data()! as Map<String, dynamic>;
 
-              return DiaryCard(data: data, docID: doc.id);
+              return DiaryCard(
+                data: data,
+                docID: doc.id,
+              );
             },
           ).toList(),
         );

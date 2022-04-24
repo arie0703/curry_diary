@@ -47,14 +47,14 @@ class _RecipeCardState extends State<RecipeCard> {
             child: Card(
                 color: CommonColor.primaryColor[50],
                 child: Padding(
-                  padding: EdgeInsets.all(10),
+                  padding: const EdgeInsets.all(10),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
                         width: 120,
                         height: 120,
-                        padding: EdgeInsets.only(right: 10),
+                        padding: const EdgeInsets.only(right: 10),
                         child: widget.data["image_url"] != null
                             ? Image.network(widget.data["image_url"])
                             : Image.asset('assets/noimage.png',
@@ -70,13 +70,13 @@ class _RecipeCardState extends State<RecipeCard> {
                                     fontSize: 20,
                                     color: CommonColor.primaryColor[800])),
                             Text("by " + snapshot.data['name'],
-                                style: TextStyle(height: 1.5)),
+                                style: const TextStyle(height: 1.5)),
                             Text(
                               widget.data['ingredients'].join(","),
                               overflow: TextOverflow.ellipsis,
                               maxLines: 1,
                               softWrap: false,
-                              style: TextStyle(height: 2.0),
+                              style: const TextStyle(height: 2.0),
                             )
                           ],
                         ),

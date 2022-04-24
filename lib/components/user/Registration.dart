@@ -28,31 +28,31 @@ class _RegistrationState extends State<Registration> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            Padding(
+            const Padding(
                 padding: EdgeInsets.fromLTRB(25.0, 0, 25.0, 30.0),
                 child: Text('新規アカウントの作成',
                     style:
                         TextStyle(fontSize: 20, fontWeight: FontWeight.bold))),
             Padding(
-                padding: EdgeInsets.fromLTRB(25.0, 0, 25.0, 0),
+                padding: const EdgeInsets.fromLTRB(25.0, 0, 25.0, 0),
                 child: TextFormField(
-                  decoration: InputDecoration(labelText: "ユーザー名"),
+                  decoration: const InputDecoration(labelText: "ユーザー名"),
                   onChanged: (String value) {
                     name = value;
                   },
                 )),
             Padding(
-                padding: EdgeInsets.fromLTRB(25.0, 0, 25.0, 0),
+                padding: const EdgeInsets.fromLTRB(25.0, 0, 25.0, 0),
                 child: TextFormField(
-                  decoration: InputDecoration(labelText: "メールアドレス"),
+                  decoration: const InputDecoration(labelText: "メールアドレス"),
                   onChanged: (String value) {
                     email = value;
                   },
                 )),
             Padding(
-              padding: EdgeInsets.fromLTRB(25.0, 0, 25.0, 10.0),
+              padding: const EdgeInsets.fromLTRB(25.0, 0, 25.0, 10.0),
               child: TextFormField(
-                  decoration: InputDecoration(labelText: "パスワード（8～20文字）"),
+                  decoration: const InputDecoration(labelText: "パスワード（8～20文字）"),
                   obscureText: true,
                   maxLength: 20,
                   onChanged: (String value) {
@@ -65,10 +65,10 @@ class _RegistrationState extends State<Registration> {
                   }),
             ),
             Padding(
-              padding: EdgeInsets.fromLTRB(20.0, 0, 20.0, 5.0),
+              padding: const EdgeInsets.fromLTRB(20.0, 0, 20.0, 5.0),
               child: Text(
                 infoText,
-                style: TextStyle(color: Colors.red),
+                style: const TextStyle(color: Colors.red),
               ),
             ),
             TextButton(
@@ -84,13 +84,13 @@ class _RegistrationState extends State<Registration> {
                         return TermsOfService();
                       });
                 },
-                child: Text("利用規約")),
+                child: const Text("利用規約")),
             SizedBox(
                 width: 300.0,
                 height: 50.0,
                 child: isReadTerms
                     ? ElevatedButton(
-                        child: Text(
+                        child: const Text(
                           '規約に同意して登録',
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
@@ -126,7 +126,7 @@ class _RegistrationState extends State<Registration> {
                         },
                       )
                     : ElevatedButton(
-                        child: Text(
+                        child: const Text(
                           '規約をお読みください',
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),

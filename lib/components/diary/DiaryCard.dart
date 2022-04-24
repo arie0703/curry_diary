@@ -94,7 +94,7 @@ class _DiaryCardState extends State<DiaryCard> {
 
           if (currentUser == null) {
             return IconButton(
-              padding: EdgeInsets.all(0.0),
+              padding: const EdgeInsets.all(0.0),
               icon: const Icon(Icons.star_border_outlined, size: 30),
               color: Colors.orange,
               onPressed: () {},
@@ -103,7 +103,7 @@ class _DiaryCardState extends State<DiaryCard> {
 
           if (!isLiked) {
             return IconButton(
-              padding: EdgeInsets.all(0.0),
+              padding: const EdgeInsets.all(0.0),
               icon: const Icon(Icons.star_border_outlined, size: 30),
               color: Colors.orange,
               onPressed: () {
@@ -113,7 +113,7 @@ class _DiaryCardState extends State<DiaryCard> {
           }
 
           return IconButton(
-            padding: EdgeInsets.all(0.0),
+            padding: const EdgeInsets.all(0.0),
             icon: const Icon(Icons.star, size: 30),
             color: Colors.orange,
             onPressed: () {
@@ -142,7 +142,7 @@ class _DiaryCardState extends State<DiaryCard> {
             child: Column(
               children: [
                 ListTile(
-                  leading: Icon(Icons.person),
+                  leading: const Icon(Icons.person),
                   title: Text(widget.data["title"]),
                   subtitle: Text(snapshot.data['name']),
                 ),
@@ -159,7 +159,7 @@ class _DiaryCardState extends State<DiaryCard> {
                           likeButton,
                           Text(
                             widget.data["likes"].toString(),
-                            style: TextStyle(
+                            style: const TextStyle(
                                 height: 0.5,
                                 fontSize: 12,
                                 color: Colors.black87),
@@ -170,7 +170,7 @@ class _DiaryCardState extends State<DiaryCard> {
                         Column(
                           children: [
                             IconButton(
-                              padding: EdgeInsets.all(0.0),
+                              padding: const EdgeInsets.all(0.0),
                               icon: const Icon(Icons.edit, size: 30),
                               color: Colors.deepOrangeAccent,
                               onPressed: () {
@@ -185,7 +185,7 @@ class _DiaryCardState extends State<DiaryCard> {
                                     });
                               },
                             ),
-                            Text(
+                            const Text(
                               '編集',
                               style: TextStyle(
                                   height: 0.5,
@@ -200,10 +200,10 @@ class _DiaryCardState extends State<DiaryCard> {
                 Align(
                   alignment: Alignment.bottomLeft,
                   child: Container(
-                    padding: EdgeInsets.all(10),
+                    padding: const EdgeInsets.all(10),
                     child: Text(
                       widget.data["content"],
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 15,
                       ),
                     ),

@@ -82,7 +82,7 @@ class _PostRecipeState extends State<PostRecipe> {
               children: [
                 Container(
                     width: double.maxFinite,
-                    padding: EdgeInsets.all(10),
+                    padding: const EdgeInsets.all(10),
                     child: TextFieldList(list: list))
               ],
             );
@@ -162,13 +162,13 @@ class _PostRecipeState extends State<PostRecipe> {
                       ),
                     ),
                     TextButton(
-                      child: Text("材料"),
+                      child: const Text("材料"),
                       onPressed: () async {
                         await _showDialog("材料を追加", ingredients);
                       },
                     ),
                     TextButton(
-                      child: Text("つくりかた"),
+                      child: const Text("つくりかた"),
                       onPressed: () async {
                         await _showDialog("つくりかたを追加", procedure);
                       },

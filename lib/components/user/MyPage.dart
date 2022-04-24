@@ -22,13 +22,13 @@ class _MyPageState extends State<MyPage> {
     return Align(
         alignment: Alignment.topCenter,
         child: Container(
-            padding: EdgeInsets.only(top: 20.0),
+            padding: const EdgeInsets.only(top: 20.0),
             child: SingleChildScrollView(
               child: Column(
                 children: [
                   Text(
                     currentUser!.displayName ?? "未設定",
-                    style: TextStyle(fontSize: 20.0, height: 2.0),
+                    style: const TextStyle(fontSize: 20.0, height: 2.0),
                   ),
                   currentUser!.photoURL != null
                       ? Container(
@@ -43,7 +43,7 @@ class _MyPageState extends State<MyPage> {
                       : Container(
                           width: 110.0,
                           height: 110.0,
-                          decoration: BoxDecoration(
+                          decoration: const BoxDecoration(
                               shape: BoxShape.circle,
                               image: DecorationImage(
                                 image: AssetImage('assets/noimage.png'),
@@ -51,7 +51,7 @@ class _MyPageState extends State<MyPage> {
                               )),
                         ),
                   TextButton(
-                      child: Text("設定"),
+                      child: const Text("設定"),
                       onPressed: () {
                         showModalBottomSheet(
                             backgroundColor: Colors.black12,
@@ -71,7 +71,7 @@ class _MyPageState extends State<MyPage> {
                           });
                         },
                         child: Padding(
-                          padding: EdgeInsets.all(20.0),
+                          padding: const EdgeInsets.all(20.0),
                           child: Text(
                             "カレー",
                             style: TextStyle(
@@ -89,7 +89,7 @@ class _MyPageState extends State<MyPage> {
                           });
                         },
                         child: Padding(
-                          padding: EdgeInsets.all(20.0),
+                          padding: const EdgeInsets.all(20.0),
                           child: Text(
                             "レシピ",
                             style: TextStyle(
@@ -103,9 +103,9 @@ class _MyPageState extends State<MyPage> {
                     ],
                   ),
                   Visibility(
-                      visible: _selectedIndex == 0, child: UserDiaries()),
+                      visible: _selectedIndex == 0, child: const UserDiaries()),
                   Visibility(
-                      visible: _selectedIndex == 1, child: UserRecipes()),
+                      visible: _selectedIndex == 1, child: const UserRecipes()),
                 ],
               ),
             )));
